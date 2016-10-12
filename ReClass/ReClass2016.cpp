@@ -947,7 +947,8 @@ CNodeBase* CReClass2016App::CreateNewNode(NodeType Type)
 	if (Type == nt_unicode) return new CNodeUnicode;
 
 	if (Type == nt_vtable) return new CNodeVTable;
-	if (Type == nt_function) return new CNodeFunctionPtr;
+	if (Type == nt_functionptr) return new CNodeFunctionPtr;
+	if (Type == nt_function) return new CNodeFunction;
 
 	if (Type == nt_pointer) return new CNodePtr;
 	if (Type == nt_array) return new CNodeArray;
@@ -1230,8 +1231,9 @@ void CReClass2016App::OnFileOpen()
 	XMLHandle hDoc(&doc);
 	XMLHandle hRoot(0);
 	XMLElement* pElem;
-	typedef std::map<CString, CNodeBase*> LinkMap;
-	LinkMap Links;
+	typedef std::pair<CString, CNodeBase*> Link;
+	typedef std::vector<Link> Links;
+	Links links;
 
 	pElem = hDoc.FirstChildElement().ToElement();
 	if (!pElem)
@@ -1338,7 +1340,7 @@ void CReClass2016App::OnFileOpen()
 
 						if (ArrayType == nt_class)
 						{
-							Links.insert(std::make_pair(Name, pNode));
+							links.push_back(Link(Name, pNode));
 						}
 						//Handle other type of arrays....
 					}
@@ -1346,12 +1348,12 @@ void CReClass2016App::OnFileOpen()
 				else if (Type == nt_pointer)
 				{
 					CString PointerStr = _CA2W(pClassElem->Attribute("Pointer"));
-					Links.insert(std::make_pair(PointerStr, pNode));
+					links.push_back(Link(PointerStr, pNode));
 				}
 				else if (Type == nt_instance)
 				{
 					CString InstanceStr = _CA2W(pClassElem->Attribute("Instance"));
-					Links.insert(std::make_pair(InstanceStr, pNode));
+					links.push_back(Link(InstanceStr, pNode));
 				}
 			}
 
@@ -1365,7 +1367,7 @@ void CReClass2016App::OnFileOpen()
 
 	//Fix Links... very ghetto this whole thing is just fucked
 	//for (UINT i = 0; i < Links.size(); i++)
-	for (LinkMap::iterator it = Links.begin(); it != Links.end(); it++)
+	for (auto it = links.begin(); it != links.end(); it++)
 	{
 		for (UINT c = 0; c < Classes.size(); c++)
 		{
@@ -1571,7 +1573,7 @@ void CReClass2016App::OnButtonGenerate()
 				var.push_back(t);
 			}
 
-			if (Type == nt_function)
+			if (Type == nt_functionptr)
 			{
 				t.Format(_T("\t%s; //0x%0.4X %s\r\n"), pNode->GetName(), pNode->GetOffset(), pNode->GetComment());
 				var.push_back(t);
