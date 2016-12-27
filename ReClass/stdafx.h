@@ -6,8 +6,10 @@
 
 // Disable warnings for type casting from HANDLE to DWORD and vice versa
 #pragma warning(disable : 4312 4311 4302 4099) 
+
 #define PSAPI_VERSION 1
 #define WIN32_LEAN_AND_MEAN
+//#define _NO_CRT_STDIO_INLINE
 
 #include "targetver.h"
 
@@ -32,13 +34,6 @@
 #include <ShellScalingApi.h>
 
 #include <vector>
-//#include <cstdarg>
-#include <Shlwapi.h>
-#include <Psapi.h>
-#include <CommCtrl.h>
-#include <algorithm>
-#include <memory>
-#include <map>
 
 //
 // BeaEngine disassembler 
@@ -61,20 +56,13 @@ const COLORREF green = RGB( 0, 200, 0 );
 const COLORREF red = RGB( 255, 0, 0 );
 const COLORREF lightred = RGB( 255, 100, 100 );
 const COLORREF blue = RGB( 0, 0, 255 );
-const COLORREF darkblue = RGB( 0, 0, 100 );
+const COLORREF darkblue = RGB( 0, 0, 150 );
 const COLORREF yellow = RGB( 255, 255, 0 );
+const COLORREF darkyellow = RGB( 100, 100, 0 );
 const COLORREF orange = RGB( 255, 175, 65 );
 const COLORREF magenta = RGB( 255, 0, 255 );
 const COLORREF cyan = RGB( 0, 255, 255 );
 const COLORREF purple = RGB( 128, 0, 255 );
-
-// Scintilla Colors structure
-struct SScintillaColors
-{
-	int			iItem;
-	COLORREF	rgb;
-};
-
 
 //
 // TinyXml parser
@@ -82,12 +70,6 @@ struct SScintillaColors
 //#include "tinyxml2_unicode.h"
 #include "tinyxml2.h"
 using namespace tinyxml2;
-
-
-//
-// SQL parser
-// Not even needed until importing is done
-#include "..\\SQLite\\CppSQLite3.h"
 
 //
 // Utilities
@@ -109,82 +91,81 @@ using namespace tinyxml2;
 //
 extern HANDLE g_hProcess;
 extern DWORD  g_ProcessID;
-extern size_t g_AttachedProcessAddress;
+extern ULONG_PTR g_AttachedProcessAddress;
 extern DWORD  g_AttachedProcessSize;
 extern CString g_ProcessName;
-extern Symbols* g_SymLoader;
 
-extern std::vector<struct MemMapInfo> MemMap;
-extern std::vector<struct MemMapInfo> MemMapCode;
-extern std::vector<struct MemMapInfo> MemMapData;
-extern std::vector<struct MemMapInfo> MemMapModule;
-extern std::vector<struct AddressName> Exports;
-extern std::vector<struct AddressName> CustomNames;
+extern std::vector<struct MemMapInfo> g_MemMap;
+extern std::vector<struct MemMapInfo> g_MemMapCode;
+extern std::vector<struct MemMapInfo> g_MemMapData;
+extern std::vector<struct MemMapInfo> g_MemMapModules;
+extern std::vector<struct AddressName> g_Exports;
+extern std::vector<struct AddressName> g_CustomNames;
 
-extern std::vector<HICON> Icons;
+extern std::vector<HICON> g_Icons;
 
-extern COLORREF crBackground;
-extern COLORREF crSelect;
-extern COLORREF crHidden;
+extern COLORREF g_crBackground;
+extern COLORREF g_crSelect;
+extern COLORREF g_crHidden;
+extern COLORREF g_crOffset;
+extern COLORREF g_crAddress;
+extern COLORREF g_crType;
+extern COLORREF g_crName;
+extern COLORREF g_crIndex;
+extern COLORREF g_crValue;
+extern COLORREF g_crComment;
+extern COLORREF g_crVTable;
+extern COLORREF g_crFunction;
+extern COLORREF g_crChar;
+extern COLORREF g_crCustom;
+extern COLORREF g_crHex;
 
-extern COLORREF crOffset;
-extern COLORREF crAddress;
-extern COLORREF crType;
-extern COLORREF crName;
-extern COLORREF crIndex;
-extern COLORREF crValue;
-extern COLORREF crComment;
-
-extern COLORREF crVTable;
-extern COLORREF crFunction;
-extern COLORREF crChar;
-extern COLORREF crCustom;
-extern COLORREF crHex;
-
-#define FONT_DEFAULT_WIDTH 8
+#define FONT_DEFAULT_WIDTH	8
 #define FONT_DEFAULT_HEIGHT 16
+#define FONT_DEFAULT_SIZE	10
 
+extern CString g_ViewFontName;
 extern CFont g_ViewFont;
 extern int g_FontWidth;
 extern int g_FontHeight;
 
-extern bool gbAddress;
-extern bool gbOffset;
-extern bool gbText;
-extern bool gbRTTI;
-extern bool gbResizingFont;
-extern bool gbSymbolResolution;
-extern bool gbLoadModuleSymbol;
+extern bool g_bAddress;
+extern bool g_bOffset;
+extern bool g_bText;
+extern bool g_bRTTI;
+extern bool g_bRandomName;
+extern bool g_bResizingFont;
+extern bool g_bSymbolResolution;
+extern bool g_bLoadModuleSymbol;
 
-extern bool gbFloat;
-extern bool gbInt;
-extern bool gbString;
-extern bool gbPointers;
+extern bool g_bFloat;
+extern bool g_bInt;
+extern bool g_bString;
+extern bool g_bPointers;
 
-extern bool gbTop;
-extern bool gbClassBrowser;
-extern bool gbFilterProcesses;
-extern bool gbPrivatePadding;
-extern bool gbClipboardCopy;
+extern bool g_bTop;
+extern bool g_bClassBrowser;
+extern bool g_bFilterProcesses;
+extern bool g_bPrivatePadding;
+extern bool g_bClipboardCopy;
 
-extern CString tdHex;
-extern CString tdInt64;
-
-extern CString tdInt32;
-extern CString tdInt16;
-extern CString tdInt8;
-extern CString tdQWORD;
-extern CString tdDWORD;
-extern CString tdWORD;
-extern CString tdBYTE;
-extern CString tdFloat;
-extern CString tdDouble;
-extern CString tdVec2;
-extern CString tdVec3;
-extern CString tdQuat;
-extern CString tdMatrix;
-extern CString tdPChar;
-extern CString tdPWChar;
+extern CString g_tdHex;
+extern CString g_tdInt64;
+extern CString g_tdInt32;
+extern CString g_tdInt16;
+extern CString g_tdInt8;
+extern CString g_tdQWORD;
+extern CString g_tdDWORD;
+extern CString g_tdWORD;
+extern CString g_tdBYTE;
+extern CString g_tdFloat;
+extern CString g_tdDouble;
+extern CString g_tdVec2;
+extern CString g_tdVec3;
+extern CString g_tdQuat;
+extern CString g_tdMatrix;
+extern CString g_tdPChar;
+extern CString g_tdPWChar;
 
 //
 // Hotspot, Node, & Item IDs
@@ -228,32 +209,30 @@ extern CString tdPWChar;
 //
 // Global functions
 //
-bool PauseResumeThreadList( bool bResumeThread );
+BOOLEAN PauseResumeThreadList( BOOL bResumeThread );
+BOOLEAN UpdateMemoryMap( );
+BOOLEAN UpdateExports( );
 
-bool UpdateMemoryMap( );
-bool UpdateExports( );
+ULONG_PTR GetBase( );
+BOOLEAN IsCode( ULONG_PTR Address );
+BOOLEAN IsData( ULONG_PTR Address );
+BOOLEAN IsMemory( ULONG_PTR Address );
+BOOLEAN IsModule( ULONG_PTR Address );
 
-size_t GetBase( );
-bool IsCode( size_t Address );
-bool IsData( size_t Address );
-bool IsMemory( size_t Address );
-bool IsModule( size_t Address );
+CString GetAddressName( ULONG_PTR Address, BOOLEAN bJustAddress );
+CString GetModuleName( ULONG_PTR Address );
+ULONG_PTR GetAddressFromName( CString moduleName );
 
-CString GetAddressName( size_t Address, bool bHEX );
-CString GetModuleName( size_t Address );
-size_t  GetAddressFromName( CString moduleName );
-
-BOOL ReClassReadMemory( LPVOID Address, LPVOID Buffer, SIZE_T Size, SIZE_T *num_read = nullptr );
-BOOL ReClassWriteMemory( LPVOID Address, LPVOID Buffer, SIZE_T Size, SIZE_T *num_wrote = nullptr );
+BOOL ReClassReadMemory( LPVOID Address, LPVOID Buffer, SIZE_T Size, PSIZE_T BytesRead = nullptr );
+BOOL ReClassWriteMemory( LPVOID Address, LPVOID Buffer, SIZE_T Size, PSIZE_T BytesWritten = nullptr );
 HANDLE ReClassOpenProcess( DWORD dwDesiredAccessFlags, BOOL bInheritHandle, DWORD dwProcessID );
 HANDLE ReClassOpenThread( DWORD dwDesiredAccessFlags, BOOL bInheritHandle, DWORD dwThreadID );
 
-CStringA ReadMemoryStringA( size_t address, SIZE_T max = 40 );
-CStringW ReadMemoryStringW( size_t address, SIZE_T max = 40 );
+CStringA ReadMemoryStringA( ULONG_PTR address, SIZE_T max = 40 );
+CStringW ReadMemoryStringW( ULONG_PTR address, SIZE_T max = 40 );
 
-__int64 StrToNum( const TCHAR *udata, int udatalen, int base );
 int SplitString( const CString& input, const CString& delimiter, CStringArray& results );
-size_t ConvertStrToAddress( CString str );
+ULONG_PTR ConvertStrToAddress( CString str );
 
 
 // 
@@ -263,8 +242,8 @@ size_t ConvertStrToAddress( CString str );
 
 struct MemMapInfo
 {
-	size_t  Start;
-	size_t  End;
+	ULONG_PTR  Start;
+	ULONG_PTR  End;
 	DWORD   Size;
 	CString Name;
 	CString Path;
@@ -273,12 +252,13 @@ struct MemMapInfo
 struct AddressName
 {
 	CString Name;
-	size_t Address;
+	ULONG_PTR Address;
 };
 
-// All node type classes
+//
+// Classes 
+//
 #include "Classes.h"
-
 #ifdef _WIN64
 #define CNodeHex CNodeHex64
 #else
@@ -287,67 +267,18 @@ struct AddressName
 
 //
 // Plugins
-// NOTE: Plugins disable and enabled state are dependant on the implementation inside the plugin
+// NOTE: Plugins disabled and enabled state are dependent on the implementation inside the plugin
 // All we do is send a state change to plugins for them to disable or enable their functionality
 // Also decided to change folder creation so that its up to the user to create the folder if they want/have plugins
 //
-#pragma region Plugins
-void LoadPlugins( );
-
-#define RECLASS_EXPORT __declspec(dllexport) 
-#define PLUGIN_CC __stdcall
-
-typedef BOOL( PLUGIN_CC *MEMORY_OPERATION )(LPVOID, LPVOID, SIZE_T, PSIZE_T);
-typedef HANDLE( PLUGIN_CC *HANDLE_OPERATION )(DWORD, BOOL, DWORD);
-
-extern MEMORY_OPERATION g_PluginOverrideMemoryWrite;
-extern MEMORY_OPERATION g_PluginOverrideMemoryRead;
-extern HANDLE_OPERATION g_PluginOverrideHandleProcess;
-extern HANDLE_OPERATION g_PluginOverrideHandleThread;
-
-typedef struct _RECLASS_PLUGIN_INFO
-{
-	_RECLASS_PLUGIN_INFO( ) : DialogID( -1 ) { }
-
-	wchar_t Name[260];
-	wchar_t About[2048];
-	wchar_t Version[260];
-	int DialogID;
-} RECLASS_PLUGIN_INFO, *LPRECLASS_PLUGIN_INFO;
-
-BOOL PLUGIN_CC PluginInit( LPRECLASS_PLUGIN_INFO lpRCInfo );
-void PLUGIN_CC PluginStateChange( bool state );
-typedef BOOL( PLUGIN_CC *tPluginInit )(LPRECLASS_PLUGIN_INFO lpRCInfo);
-typedef void(PLUGIN_CC *tPluginStateChange)(bool state);
-
-typedef struct _RECLASS_PLUGINS
-{
-	RECLASS_PLUGIN_INFO Info;
-	wchar_t FileName[260];
-	bool State;
-	HMODULE LoadedBase;
-	tPluginInit InitFnc;
-	tPluginStateChange StateChangeFnc;
-	DLGPROC SettingDlgFnc;
-} RECLASS_PLUGINS, *LPRECLASS_PLUGINS;
-
-//Exported Functions Below
-RECLASS_EXPORT BOOL PLUGIN_CC ReClassOverrideMemoryOperations( MEMORY_OPERATION MemWrite, MEMORY_OPERATION MemRead, BOOL bForceSet = FALSE );
-RECLASS_EXPORT BOOL PLUGIN_CC ReClassOverrideHandleOperations( HANDLE_OPERATION HandleProcess, HANDLE_OPERATION HandleThread, BOOL bForceSet = FALSE );
-RECLASS_EXPORT void PLUGIN_CC ReClassPrintConsole( const wchar_t *format, ... );
-RECLASS_EXPORT LPHANDLE PLUGIN_CC ReClassGetProcessHandle( );
-RECLASS_EXPORT HWND PLUGIN_CC ReClassMainWindow( );
-RECLASS_EXPORT CMFCRibbonBar* PLUGIN_CC ReClassRibbonInterface( );
-
-extern std::vector<RECLASS_PLUGINS> LoadedPlugins;
-#pragma endregion
+#include "PluginAPI.h"
 
 
 //
 // Main Application
 //
 #include "ReClass2016.h"
-extern CReClass2016App theApp;
+extern CReClass2016App g_ReClassApp;
 
 
 //
@@ -355,10 +286,10 @@ extern CReClass2016App theApp;
 //
 #define PrintOut(fmt, ...) { \
 do { \
-	static TCHAR s_logbuf[1024]; \
 	if (fmt) { \
+		static TCHAR s_logbuf[1024]; \
 		_sntprintf(s_logbuf, 1024, fmt, ##__VA_ARGS__); \
-		theApp.Console->PrintText(s_logbuf); \
+		g_ReClassApp.m_pConsole->PrintText(s_logbuf); \
 	} \
 } while (0);\
 }

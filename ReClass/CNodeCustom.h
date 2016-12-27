@@ -5,14 +5,17 @@
 class CNodeCustom : public CNodeBase
 {
 public:
-	CNodeCustom();
+	CNodeCustom( );
 
-	virtual void Update(CHotSpot& Spot);
+	virtual void Update( HotSpot& Spot );
 
-	virtual int GetMemorySize();
+	virtual ULONG GetMemorySize( );
 
-	virtual int Draw(ViewInfo& View, int x, int y);
+	virtual int Draw( ViewInfo& View, int x, int y );
 
-public:
-	DWORD memsize;
+	void SetSize( DWORD size ) { m_dwMemorySize = size; }
+	DWORD GetSize( void ) { return m_dwMemorySize; }
+
+private:
+	DWORD m_dwMemorySize;
 };

@@ -5,14 +5,17 @@
 class CNodeClassInstance : public CNodeBase
 {
 public:
-	CNodeClassInstance();
+	CNodeClassInstance( );
 
-	virtual void Update(CHotSpot& Spot);
+	virtual void Update( HotSpot& Spot );
 
-	virtual int GetMemorySize();
+	virtual ULONG GetMemorySize( );
 
-	virtual int Draw(ViewInfo& View, int x, int y);
+	virtual int Draw( ViewInfo& View, int x, int y );
 
-public:
-	CNodeClass* pNode;
+	void SetClass( CNodeClass* pNode ) { m_pNode = pNode; }
+	CNodeClass* GetClass( void ) { return m_pNode; }
+
+private:
+	CNodeClass* m_pNode;
 };

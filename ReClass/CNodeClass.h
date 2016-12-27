@@ -5,13 +5,17 @@
 class CNodeClass : public CNodeBase
 {
 public:
-	CNodeClass();
+	CNodeClass( );
 
-	virtual void Update(CHotSpot& Spot);
+	virtual void Update( HotSpot& Spot );
 
-	virtual int GetMemorySize();
+	virtual ULONG GetMemorySize( );
 
-	virtual int Draw(ViewInfo& View, int x, int y);
+	virtual int Draw( ViewInfo& View, int x, int y );
+
+	VOID SetChildFrame( class CChildFrame* pChild ) { pChildWindow = pChild; }
+
+	class CChildFrame* GetChildFrame(  ) { return pChildWindow; }
 
 public:
 	int idx;

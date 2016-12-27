@@ -5,14 +5,17 @@
 class CNodeText : public CNodeBase
 {
 public:
-	CNodeText();
+	CNodeText( );
 
-	virtual void Update(CHotSpot& Spot);
+	virtual void Update( HotSpot& Spot );
 
-	virtual int GetMemorySize();
+	virtual ULONG GetMemorySize( ) { return m_dwMemorySize; }
 
-	virtual int Draw(ViewInfo& View, int x, int y);
+	virtual int Draw( ViewInfo& View, int x, int y );
 
-public:
-	DWORD memsize;
+	void SetSize( DWORD size ) { m_dwMemorySize = size; }
+	DWORD GetSize( void ) { return m_dwMemorySize; }
+
+private:
+	DWORD m_dwMemorySize;
 };

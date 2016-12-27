@@ -60,6 +60,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -110,7 +111,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>$(ProjectName)_64_dbg</TargetName>
+    <TargetName>$(ProjectName)64_dbg</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -135,12 +136,13 @@
       </IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>BeaEngine_s_stdcall.lib;SciLexer.lib;SQLite_Static_Library.lib;Psapi.lib;comctl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>BeaEngine_s_stdcall.lib;SciLexer.lib;Psapi.lib;comctl32.lib</AdditionalDependencies>
       <AdditionalManifestDependencies>"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'"</AdditionalManifestDependencies>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
       <AdditionalLibraryDirectories>..\DIA SDK\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -158,7 +160,7 @@
       <WarningLevel>Level2</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -169,16 +171,15 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>crt.lib</IgnoreSpecificDefaultLibraries>
-      <AdditionalDependencies>BeaEngine_s_stdcalld.lib;SciLexerd.lib;SQLite_Static_Libraryd.lib;Psapi.lib;comctl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>BeaEngine_s_stdcalld.lib;SciLexerd.lib;Psapi.lib;comctl32.lib</AdditionalDependencies>
       <AdditionalManifestDependencies>"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'";%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
       <AdditionalLibraryDirectories>..\DIA SDK\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -200,25 +201,23 @@
       <PreprocessorDefinitions>NDEBUG;_AMD64_;_M_AMD64;_X86AMD64_;_WIN64;_M_X64;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <StringPooling>true</StringPooling>
-      <CreateHotpatchableImage>false</CreateHotpatchableImage>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\DIA SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>BeaEngine_s_stdcall_64.lib;SciLexer_64.lib;SQLite_Static_Library_64.lib;Psapi.lib;comctl32.lib</AdditionalDependencies>
       <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <IgnoreSpecificDefaultLibraries>crt64.lib</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
-      <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
       <AdditionalManifestDependencies>"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'";%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
       <AdditionalLibraryDirectories>..\DIA SDK\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BeaEngine_s_stdcall_64.lib;SciLexer_64.lib;Psapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -248,13 +247,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>BeaEngine_s_stdcalld_64.lib;SciLexerd_64.lib;SQLite_Static_Libraryd_64.lib;Psapi.lib;comctl32.lib</AdditionalDependencies>
       <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <IgnoreSpecificDefaultLibraries>crt64.lib</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD.lib</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalManifestDependencies>"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'";%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
       <AdditionalLibraryDirectories>..\DIA SDK\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BeaEngine_s_stdcalld_64.lib;SciLexerd_64.lib;Psapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -295,6 +294,20 @@
     <None Include="..\Images\text.ico" />
     <None Include="..\Images\unsigned.ico" />
     <None Include="..\Images\vector.ico" />
+    <MASM Include="Intrinsics32.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="Intrinsics64.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </MASM>
     <None Include="res\buttons.bmp" />
     <None Include="res\classicon.bmp" />
     <None Include="res\filelarge.bmp" />
@@ -312,7 +325,8 @@
     <None Include="res\writesmall.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SQLite\CppSQLite3.h" />
+    <ClInclude Include="CCustomEdit.h" />
+    <ClInclude Include="CCustomToolTip.h" />
     <ClInclude Include="CNodeArray.h" />
     <ClInclude Include="CNodeBase.h" />
     <ClInclude Include="CNodeBits.h" />
@@ -346,10 +360,11 @@
     <ClInclude Include="CNodeVTable.h" />
     <ClInclude Include="CNodeWCharPtr.h" />
     <ClInclude Include="CNodeWORD.h" />
+    <ClInclude Include="CScintillaEdit.h" />
     <ClInclude Include="DialogAbout.h" />
-    <ClInclude Include="CBitArray.h" />
-    <ClInclude Include="ChildFrame.h" />
-    <ClInclude Include="ChildView.h" />
+    <ClInclude Include="BitArray.h" />
+    <ClInclude Include="CChildFrame.h" />
+    <ClInclude Include="CChildView.h" />
     <ClInclude Include="Classes.h" />
     <ClInclude Include="CMemory.h" />
     <ClInclude Include="Debug.h" />
@@ -361,15 +376,16 @@
     <ClInclude Include="DialogProcSelect.h" />
     <ClInclude Include="DialogProgress.h" />
     <ClInclude Include="DialogTypes.h" />
-    <ClInclude Include="CHotSpot.h" />
-    <ClInclude Include="MainFrame.h" />
+    <ClInclude Include="HotSpot.h" />
+    <ClInclude Include="CMainFrame.h" />
+    <ClInclude Include="Intrinsics.h" />
     <ClInclude Include="NodeType.h" />
     <ClInclude Include="NtDll.h" />
-    <ClInclude Include="nt_ddk.h" />
+    <ClInclude Include="Native.h" />
+    <ClInclude Include="PluginAPI.h" />
     <ClInclude Include="SymbolReader.h" />
     <ClInclude Include="ReClass2016.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SDK.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Symbols.h" />
     <ClInclude Include="targetver.h" />
@@ -377,10 +393,10 @@
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\SQLite\CppSQLite3.cpp" />
-    <ClCompile Include="ChildFrame.cpp" />
-    <ClCompile Include="ChildView.cpp" />
-    <ClCompile Include="CMemory.cpp" />
+    <ClCompile Include="CCustomEdit.cpp" />
+    <ClCompile Include="CCustomToolTip.cpp" />
+    <ClCompile Include="CChildFrame.cpp" />
+    <ClCompile Include="CChildView.cpp" />
     <ClCompile Include="CNodeArray.cpp" />
     <ClCompile Include="CNodeBase.cpp" />
     <ClCompile Include="CNodeBits.cpp" />
@@ -414,6 +430,7 @@
     <ClCompile Include="CNodeVTable.cpp" />
     <ClCompile Include="CNodeWCharPtr.cpp" />
     <ClCompile Include="CNodeWORD.cpp" />
+    <ClCompile Include="CScintillaEdit.cpp" />
     <ClCompile Include="DialogAbout.cpp" />
     <ClCompile Include="DialogClasses.cpp" />
     <ClCompile Include="DialogConsole.cpp" />
@@ -423,8 +440,9 @@
     <ClCompile Include="DialogProcSelect.cpp" />
     <ClCompile Include="DialogProgress.cpp" />
     <ClCompile Include="DialogTypes.cpp" />
-    <ClCompile Include="MainFrame.cpp" />
+    <ClCompile Include="CMainFrame.cpp" />
     <ClCompile Include="NtDll.cpp" />
+    <ClCompile Include="PluginAPI.cpp" />
     <ClCompile Include="SymbolReader.cpp" />
     <ClCompile Include="ReClass2016.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -452,6 +470,7 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
