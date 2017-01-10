@@ -264,7 +264,7 @@ BOOLEAN PauseResumeThreadList( BOOL bResumeThread )
 	return 1;
 }
 
-ULONG_PTR GetBase( )
+ULONG_PTR GetBaseAddress( )
 {
 	if (g_MemMap.size( ) > 1)
 		return g_AttachedProcessAddress;
@@ -313,6 +313,16 @@ BOOLEAN IsModule( ULONG_PTR Address )
 			return true;
 	}
 	return false;
+}
+
+ULONG_PTR GetModuleBaseFromAddress( ULONG_PTR Address )
+{
+	for (size_t i = 0; i < g_MemMapModules.size( ); i++)
+	{
+		if ((Address >= g_MemMapModules[i].Start) && (Address <= g_MemMapModules[i].End))
+			return g_MemMapModules[i].Start;
+	}
+	return 0;
 }
 
 CString GetAddressName( ULONG_PTR Address, BOOLEAN bJustAddress )

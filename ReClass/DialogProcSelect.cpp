@@ -36,9 +36,9 @@ std::initializer_list<const wchar_t*> CommonProcesses =
 // standard constructor
 CDialogProcSelect::CDialogProcSelect( CWnd* pParent )
 	: CDialogEx( CDialogProcSelect::IDD, pParent ),
-	m_bLoadingProcesses( false ),
-	m_bSortAscendingName( false ),
-	m_bSortAscendingId( false )
+	m_bLoadingProcesses( FALSE ),
+	m_bSortAscendingName( FALSE ),
+	m_bSortAscendingId( FALSE )
 {
 }
 
@@ -85,7 +85,7 @@ void CDialogProcSelect::ListRunningProcs( )
 	{
 		int CurrentProcessIndex = 0;
 		
-		m_bLoadingProcesses = true;
+		m_bLoadingProcesses = TRUE;
 
 		ProcessInfo = (PSYSTEM_PROCESS_INFORMATION)BufferArray.get( );
 
@@ -142,7 +142,7 @@ void CDialogProcSelect::ListRunningProcs( )
 			ProcessInfo = (PSYSTEM_PROCESS_INFORMATION)((uint8_t*)ProcessInfo + ProcessInfo->NextEntryOffset);
 		}
 	}
-	m_bLoadingProcesses = false;
+	m_bLoadingProcesses = FALSE;
 }
 
 void CDialogProcSelect::DoDataExchange( CDataExchange* pDX )
@@ -178,11 +178,11 @@ int CALLBACK CDialogProcSelect::CompareFunction( LPARAM lParam1, LPARAM lParam2,
 	if (pCompare)
 	{
 		CListCtrl* pListCtrl = pCompare->pListCtrl;
-		int column = pCompare->iColumn;
-		bool ascending = pCompare->bAscending;
+		INT column = pCompare->iColumn;
+		BOOLEAN bAscending = pCompare->bAscending;
 
-		int item1 = ascending ? static_cast<int>(lParam1) : static_cast<int>(lParam2);
-		int item2 = ascending ? static_cast<int>(lParam2) : static_cast<int>(lParam1);
+		int item1 = bAscending ? static_cast<int>(lParam1) : static_cast<int>(lParam2);
+		int item2 = bAscending ? static_cast<int>(lParam2) : static_cast<int>(lParam1);
 
 		if (column == COLUMN_PROCESSID)
 		{
@@ -223,7 +223,7 @@ void CDialogProcSelect::OnColumnClick( NMHDR* pNMHDR, LRESULT* pResult )
 		compare.bAscending = m_bSortAscendingId;
 		break;
 	default:
-		compare.bAscending = false;
+		compare.bAscending = FALSE;
 		break;
 	}
 	m_ProcessList.SortItemsEx( CompareFunction, (LPARAM)&compare );
@@ -238,7 +238,6 @@ void CDialogProcSelect::OnDblClkListControl( NMHDR* pNMHDR, LRESULT* pResult )
 void CDialogProcSelect::OnAttachButton( )
 {
 	int SelectedIndex = m_ProcessList.GetSelectionMark( );
-
 	if (SelectedIndex != -1)
 	{
 		TCHAR tcsdSelectedProcessId[64] = { 0 };
@@ -259,7 +258,6 @@ void CDialogProcSelect::OnAttachButton( )
 			}
 			else
 			{
-
 				if (g_hProcess != NULL) // Stop leaking handles!
 					CloseHandle( g_hProcess ); 
 
@@ -271,22 +269,22 @@ void CDialogProcSelect::OnAttachButton( )
 
 				if (g_bSymbolResolution && m_LoadAllSymbols.GetCheck( ) == BST_CHECKED)
 				{
-					CDialogProgress progress;
+					CDialogProgress* ProgressDialog = new CDialogProgress( this );
 					ULONG nModules = (ULONG)g_MemMapModules.size( );
 
-					progress.Create( CDialogProgress::IDD, this );
-					progress.ShowWindow( SW_SHOW );
+					ProgressDialog->Create( CDialogProgress::IDD, this );
+					ProgressDialog->ShowWindow( SW_SHOW );
 
-					progress.Bar( ).SetRange32( 0, nModules );
-					progress.Bar( ).SetStep( 1 );
+					ProgressDialog->Bar( ).SetRange32( 0, nModules );
+					ProgressDialog->Bar( ).SetStep( 1 );
 
 					for (ULONG i = 0; i < nModules; i++)
 					{
 						TCHAR tcsProgressText[64] = { 0 };
 						MemMapInfo CurrentModule = g_MemMapModules[i];
 
-						_stprintf_s( tcsProgressText, 128, _T( "[%d/%d] %s" ), i + 1, nModules, CurrentModule.Name.GetString( ) );
-						progress.SetProgressText( tcsProgressText );
+						_stprintf_s( tcsProgressText, 64, _T( "[%d/%d] %s" ), i + 1, nModules, CurrentModule.Name.GetString( ) );
+						ProgressDialog->SetProgressText( tcsProgressText );
 
 						if (g_ReClassApp.m_pSymbolLoader->LoadSymbolsForModule( CurrentModule.Path, CurrentModule.Start, CurrentModule.Size ) == FALSE)
 						{
@@ -294,10 +292,12 @@ void CDialogProcSelect::OnAttachButton( )
 									  CurrentModule.Name.GetString( ), FoundProcessInfo->strProcessName.GetString( ) );
 						}
 
-						progress.Bar( ).StepIt( );
+						ProgressDialog->Bar( ).StepIt( );
 					}
 
-					progress.EndDialog( 0 );
+					ProgressDialog->EndDialog( 0 );
+
+					delete ProgressDialog;
 				}
 
 				OnClose( );

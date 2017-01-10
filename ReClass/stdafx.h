@@ -213,11 +213,13 @@ BOOLEAN PauseResumeThreadList( BOOL bResumeThread );
 BOOLEAN UpdateMemoryMap( );
 BOOLEAN UpdateExports( );
 
-ULONG_PTR GetBase( );
+ULONG_PTR GetBaseAddress( );
 BOOLEAN IsCode( ULONG_PTR Address );
 BOOLEAN IsData( ULONG_PTR Address );
 BOOLEAN IsMemory( ULONG_PTR Address );
 BOOLEAN IsModule( ULONG_PTR Address );
+
+ULONG_PTR GetModuleBaseFromAddress( ULONG_PTR Address );
 
 CString GetAddressName( ULONG_PTR Address, BOOLEAN bJustAddress );
 CString GetModuleName( ULONG_PTR Address );
@@ -265,14 +267,6 @@ struct AddressName
 #define CNodeHex CNodeHex32
 #endif
 
-//
-// Plugins
-// NOTE: Plugins disabled and enabled state are dependent on the implementation inside the plugin
-// All we do is send a state change to plugins for them to disable or enable their functionality
-// Also decided to change folder creation so that its up to the user to create the folder if they want/have plugins
-//
-#include "PluginAPI.h"
-
 
 //
 // Main Application
@@ -293,3 +287,11 @@ do { \
 	} \
 } while (0);\
 }
+
+//
+// Plugins
+// NOTE: Plugins disabled and enabled state are dependent on the implementation inside the plugin
+// All we do is send a state change to plugins for them to disable or enable their functionality
+// Also decided to change folder creation so that its up to the user to create the folder if they want/have plugins
+//
+#include "PluginAPI.h"

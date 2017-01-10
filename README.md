@@ -1,8 +1,8 @@
-# Reclass-2016
+# ReClassEx
+
+ReClass Extended
 
 ![Alt text](https://i.gyazo.com/485c87c45a4eae9af08d5412c5844be3.png "ReClass")
-
-Cleaned up the code a bit and added some new features. Also got rid of a ton of bugs still crawling around.
 
 ## New Features
 - Up and down arrow hotkeys to switch nodes
@@ -29,6 +29,7 @@ Cleaned up the code a bit and added some new features. Also got rid of a ton of 
 - Added automatic resolving of symbols for each module in a process
 - Added Ctrl+S hotkey for file saving, and others.
 - Added Plugin API for making plugins
+- Disassembly syntax highlighting (buggy)
 
 ![Alt text](http://i.imgur.com/W6ytfG6.png "Automatic symbol resolving")
 ![Alt text](http://i.imgur.com/hBNyEFG.png "ReClass")
@@ -49,6 +50,13 @@ See wiki for the plugin API documentation:
 
 [Plugin Documentation](https://github.com/dude719/Reclass-2016/wiki/Creating-ReClass-plugins)
 
+## TODO
+- Optimize literally everything
+- Add highlighting to bytes that change
+- Add string and byte searching feature
+- Add a kernel driver for reading and writing memory from the kernel (Already done but IS NOT SAFE!)
+- Add debugger
+
 ## Authors/Special Thanks
 - DrUnKeN ChEeTaH
 - P47R!CK
@@ -61,3 +69,5 @@ See wiki for the plugin API documentation:
 - [ReUnioN](https://github.com/ReUnioN)
 - [leveln](https://github.com/levelnuc)
 - [buddyfavors](https://github.com/buddyfavors)
+- [KN4CK3R](https://github.com/KN4CK3R) check out his .NET port [here](https://github.com/KN4CK3R/ReClass.NET)
+- [wj32](https://github.com/wj32)

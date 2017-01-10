@@ -30,6 +30,9 @@ CNodeFunction::~CNodeFunction( )
 {
 	if (m_pEdit != NULL)
 	{
+		m_pEdit->Clear( );
+		m_pEdit->ShowWindow( SW_HIDE );
+
 		delete m_pEdit;
 		m_pEdit = NULL;
 	}
@@ -111,6 +114,9 @@ void CNodeFunction::Initialize( CChildView* pChild, ULONG_PTR Address )
 {
 	if (m_pEdit != NULL)
 	{
+		m_pEdit->Clear( );
+		m_pEdit->ShowWindow( SW_HIDE );
+
 		delete m_pEdit;
 		m_pEdit = NULL;
 	}
@@ -203,7 +209,7 @@ void CNodeFunction::DisassembleBytes( ULONG_PTR Address )
 				// Generate instruction bytes
 				for (int i = 0; i < disasmLen; i++)
 				{
-					sprintf_s( szBytes + (i * 3), 128, "%02X ", *(UCHAR*)(MyDisasm.EIP + i) );
+					sprintf_s( szBytes + (i * 3), 4, "%02X ", *(UCHAR*)(MyDisasm.EIP + i) );
 				}
 
 				// Create full instruction string
