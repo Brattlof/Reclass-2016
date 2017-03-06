@@ -14,9 +14,20 @@ public:
 
 	virtual ULONG GetMemorySize( ) { return sizeof( void* ); }
 
-	virtual int Draw( ViewInfo& View, int x, int y );
+	virtual NodeSize Draw( ViewInfo& View, int x, int y );
 
 	void Initialize( CChildView* pChild, ULONG_PTR Address );
+	
+	//inline void ShowAssemblyWindow( ) { if (m_pEdit != NULL) m_pEdit->ShowWindow( SW_SHOW ); }
+	inline void HideAssemblyWindow( )
+	{
+		if (m_bRedrawNeeded == FALSE)
+		{
+			if (m_pEdit != NULL)
+				m_pEdit->ShowWindow( SW_HIDE );
+			m_bRedrawNeeded = TRUE;
+		}
+	}
 
 private:
 	void DisassembleBytes( ULONG_PTR Address );

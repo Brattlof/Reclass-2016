@@ -49,8 +49,9 @@ void CNodeFunctionPtr::Update( HotSpot& Spot )
 	}
 }
 
-int CNodeFunctionPtr::Draw( ViewInfo& View, int x, int y )
+NodeSize CNodeFunctionPtr::Draw( ViewInfo& View, int x, int y )
 {
+	NodeSize drawnSize;
 	int tx = 0;
 	int ax = 0;
 
@@ -107,29 +108,37 @@ int CNodeFunctionPtr::Draw( ViewInfo& View, int x, int y )
 
 		y += g_FontHeight;
 
-		if (m_bRedrawNeeded)
+		if (m_pEdit != NULL)
 		{
-			m_pEdit->MoveWindow( ax, y, m_iWidth, m_iHeight );
-			m_pEdit->ShowWindow( SW_SHOW );
+			if (m_bRedrawNeeded)
+			{
+				m_pEdit->MoveWindow( ax, y, m_iWidth, m_iHeight );
+				m_pEdit->ShowWindow( SW_SHOW );
 
-			m_bRedrawNeeded = FALSE;
-		}
-		else
-		{
-			m_pEdit->MoveWindow( ax, y, m_iWidth, m_iHeight );
-		}
+				m_bRedrawNeeded = FALSE;
+			}
+			else
+			{
+				m_pEdit->MoveWindow( ax, y, m_iWidth, m_iHeight );
+			}
 
-		y += m_iHeight;
+			y += m_iHeight;
+		}
 	}
 	else
 	{
-		m_pEdit->ShowWindow( SW_HIDE );
-		m_bRedrawNeeded = TRUE;
+		if (m_pEdit != NULL)
+		{
+			m_pEdit->ShowWindow( SW_HIDE );
+			m_bRedrawNeeded = TRUE;
+		}
 
 		y += g_FontHeight;
 	}
 
-	return y;
+	drawnSize.x = tx;
+	drawnSize.y = y;
+	return drawnSize;
 }
 
 void CNodeFunctionPtr::Initialize( CChildView* pChild, ULONG_PTR Address )
@@ -181,12 +190,13 @@ void CNodeFunctionPtr::DisassembleBytes( ULONG_PTR Address )
 	UIntPtr VirtualAddress = Address;
 
 	// Clear old disassembly info
-	if (m_pEdit)
+	if (m_pEdit != NULL)
 	{
 		m_pEdit->SetReadOnly( FALSE );
 		m_pEdit->Clear( );
 		m_pEdit->SetReadOnly( TRUE );
 	}
+
 	m_Assembly.clear( );
 	m_nLongestLine = 0;
 

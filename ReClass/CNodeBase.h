@@ -98,59 +98,67 @@ typedef struct _RTTI_COMPLETE_OBJECT_LOCATOR
 	#endif
 } RTTI_COMPLETE_OBJECT_LOCATOR, *PRTTI_COMPLETE_OBJECT_LOCATOR;
 
+struct NodeSize {
+	int x;
+	int y;
+};
+
 class CNodeBase
 {
 public:
 	CNodeBase( );
 	~CNodeBase( ) { }
 
-	virtual int Draw( ViewInfo& View, int x, int y ) = 0;
+	virtual NodeSize Draw( ViewInfo& View, int x, int y ) = 0;
 	virtual ULONG GetMemorySize( ) = 0;
 	virtual void Update( HotSpot& Spot ) = 0;
 
-	NodeType GetType( ) { return m_nodeType; }
+	inline NodeType GetType( ) const { return m_nodeType; }
 
-	size_t GetOffset( ) { return m_Offset; }
-	void SetOffset( size_t offset ) { m_Offset = offset; }
+	inline size_t GetOffset( ) const { return m_Offset; }
+	inline void SetOffset( const size_t& offset ) { m_Offset = offset; }
 
-	CString GetOffsetString( ) const { return m_strOffset; }
-	void SetOffsetString( CString offsetStr ) { m_strOffset = offsetStr; }
-	void SetOffsetString( LPCTSTR offsetStr ) { m_strOffset = offsetStr; }
+	inline const CString& GetOffsetString( ) const { return m_strOffset; }
+	inline void SetOffsetString( const CString& offsetStr ) { m_strOffset = offsetStr; }
+	inline void SetOffsetString( LPCTSTR offsetStr ) { m_strOffset = offsetStr; }
 
-	CString GetName( ) const { return m_strName; }
-	void SetName( CString name ) { m_strName = name; }
-	void SetName( LPCTSTR name ) { m_strName = name; }
+	inline const CString& GetName( ) const { return m_strName; }
+	inline void SetName( const CString& name ) { m_strName = name; }
+	inline void SetName( LPCTSTR name ) { m_strName = name; }
 
-	CString GetComment( ) const { return m_strComment; }
-	void SetComment( CString comment ) { m_strComment = comment; }
-	void SetComment( LPCTSTR comment ) { m_strComment = comment; }
+	inline const CString& GetComment( ) const { return m_strComment; }
+	inline void SetComment( const CString& comment ) { m_strComment = comment; }
+	inline void SetComment( LPCTSTR comment ) { m_strComment = comment; }
 
-	CNodeBase* GetParent( ) { return m_pParentNode; }
-	void SetParent( CNodeBase* newParentNode ) { m_pParentNode = newParentNode; }
+	inline CNodeBase* GetParent( ) const { return m_pParentNode; }
+	inline void SetParent( CNodeBase* newParentNode ) { m_pParentNode = newParentNode; }
 
-	void AddNode( CNodeBase* newNode ) { Nodes.emplace_back( newNode ); }
-	void InsertNode( int idx, CNodeBase* newNode ) { Nodes.insert( Nodes.begin( ) + idx, newNode ); }
-	CNodeBase* GetNode( int idx ) { return (CNodeBase*)Nodes[idx]; }
-	int FindNode( CNodeBase* pNode );
-	void SetNode( int idx, CNodeBase* newNode ) { Nodes[idx] = newNode; }
-	void DeleteNode( int idx ) { if (Nodes[idx]) { delete(Nodes[idx]); RemoveNode( idx ); } }
-	void RemoveNode( int idx ) { Nodes.erase( Nodes.begin( ) + idx ); }
-	size_t NodeCount( ) { return Nodes.size( ); }
+	inline void AddNode( CNodeBase* newNode ) { m_ChildNodes.push_back( newNode ); }
+	inline void InsertNode( int idx, CNodeBase* newNode ) { m_ChildNodes.insert( m_ChildNodes.begin( ) + idx, newNode ); }
+	inline CNodeBase* GetNode( int idx ) { return (CNodeBase*)m_ChildNodes[idx]; }
+	inline int FindNode( CNodeBase* pNode ) {
+		auto found = std::find( m_ChildNodes.begin( ), m_ChildNodes.end( ), pNode );
+		return (found != m_ChildNodes.end( )) ? (int)(found - m_ChildNodes.begin( )) : -1;
+	}
+	inline void SetNode( int idx, CNodeBase* newNode ) { m_ChildNodes[idx] = newNode; }
+	inline void DeleteNode( int idx ) { if (m_ChildNodes[idx]) { delete(m_ChildNodes[idx]); RemoveNode( idx ); } }
+	inline void RemoveNode( int idx ) { m_ChildNodes.erase( m_ChildNodes.begin( ) + idx ); }
+	inline size_t NodeCount( ) const { return m_ChildNodes.size( ); }
 
-	BOOLEAN IsHidden( ) { return m_bHidden; }
-	void Show( ) { m_bHidden = false; }
-	void Hide( ) { m_bHidden = true; }
-	void SetHidden( bool hidden ) { m_bHidden = hidden; }
-	void ToggleHidden( ) { m_bHidden = !m_bHidden; }
+	inline bool IsHidden( ) { return m_bHidden; }
+	inline void Show( ) { m_bHidden = false; }
+	inline void Hide( ) { m_bHidden = true; }
+	inline void SetHidden( bool hidden ) { m_bHidden = hidden; }
+	inline void ToggleHidden( ) { m_bHidden = !m_bHidden; }
 
-	BOOLEAN IsSelected( ) { return m_bSelected; }
-	void SetSelected( bool selected ) { m_bSelected = selected; }
-	void Select( ) { m_bSelected = true; }
-	void Unselect( ) { m_bSelected = false; }
-	void ToggleSelected( ) { m_bSelected = !m_bSelected; }
+	inline bool IsSelected( ) { return m_bSelected; }
+	inline void SetSelected( bool selected ) { m_bSelected = selected; }
+	inline void Select( ) { m_bSelected = true; }
+	inline void Unselect( ) { m_bSelected = false; }
+	inline void ToggleSelected( ) { m_bSelected = !m_bSelected; }
 
-	BOOLEAN IsLevelOpen( int idx ) { return m_LevelsOpen[idx]; }
-	void ToggleLevelOpen( int idx ) { m_LevelsOpen[idx] = !m_LevelsOpen[idx]; }
+	inline bool IsLevelOpen( int idx ) { return m_LevelsOpen[idx]; }
+	inline void ToggleLevelOpen( int idx ) { m_LevelsOpen[idx] = !m_LevelsOpen[idx]; }
 
 	// Incorrect view.address
 	void AddHotSpot( ViewInfo& View, CRect& Spot, CString Text, int ID, int Type );
@@ -179,7 +187,7 @@ public:
 
 	void StandardUpdate( HotSpot &Spot );
 
-	int DrawHidden( ViewInfo& View, int x, int y );
+	NodeSize DrawHidden( ViewInfo& View, int x, int y );
 
 protected:
 	NodeType m_nodeType;
@@ -191,15 +199,15 @@ protected:
 	CString m_strComment;
 
 	CNodeBase* m_pParentNode;
-	std::vector<CNodeBase*> Nodes;
+	std::vector<CNodeBase*> m_ChildNodes;
 
-	BOOLEAN m_bHidden;
-	BOOLEAN m_bSelected;
+	bool m_bHidden;
+	bool m_bSelected;
 
-	std::vector<BOOLEAN> m_LevelsOpen;
+	std::vector<bool> m_LevelsOpen;
 };
 
-FORCEINLINE CStringA GetStringFromMemoryA( char* pMemory, int Length )
+__forceinline CStringA GetStringFromMemoryA( char* pMemory, int Length )
 {
 	CStringA ascii;
 	for (int i = 0; i < Length; i++)
@@ -209,7 +217,7 @@ FORCEINLINE CStringA GetStringFromMemoryA( char* pMemory, int Length )
 	return ascii;
 }
 
-FORCEINLINE CStringW GetStringFromMemoryW( wchar_t* pMemory, int Length )
+__forceinline CStringW GetStringFromMemoryW( wchar_t* pMemory, int Length )
 {
 	CStringW widechar;
 	for (int i = 0; i < Length; i++)
