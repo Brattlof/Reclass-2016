@@ -19,7 +19,7 @@ CNodeBase::CNodeBase( ) :
 }
 
 // Incorrect view.address
-void CNodeBase::AddHotSpot( ViewInfo& View, CRect& Spot, CString Text, int ID, int Type )
+void CNodeBase::AddHotSpot( const ViewInfo& View, const CRect& Spot, CString Text, int ID, int Type )
 {
 	if (Spot.top > View.client->bottom || Spot.bottom < 0)
 		return;
@@ -35,7 +35,7 @@ void CNodeBase::AddHotSpot( ViewInfo& View, CRect& Spot, CString Text, int ID, i
 	View.HotSpots->push_back( spot );
 }
 
-int CNodeBase::AddText( ViewInfo& View, int x, int y, DWORD color, int HitID, const wchar_t* fmt, ... )
+int CNodeBase::AddText( const ViewInfo& View, int x, int y, DWORD color, int HitID, const wchar_t* fmt, ... )
 {
 	if (fmt == NULL)
 		return x;
@@ -72,7 +72,7 @@ int CNodeBase::AddText( ViewInfo& View, int x, int y, DWORD color, int HitID, co
 	return x + width;
 }
 
-int CNodeBase::AddText( ViewInfo& View, int x, int y, DWORD color, int HitID, const char* fmt, ... )
+int CNodeBase::AddText( const ViewInfo& View, int x, int y, DWORD color, int HitID, const char* fmt, ... )
 {
 	char buffer[1024] = { 0 };
 	TCHAR finalBuffer[1024] = { 0 };
@@ -117,7 +117,7 @@ int CNodeBase::AddText( ViewInfo& View, int x, int y, DWORD color, int HitID, co
 	return x + width;
 }
 
-int CNodeBase::AddAddressOffset( ViewInfo& View, int x, int y )
+int CNodeBase::AddAddressOffset( const ViewInfo& View, int x, int y )
 {
 	if (g_bOffset)
 	{
@@ -151,7 +151,7 @@ int CNodeBase::AddAddressOffset( ViewInfo& View, int x, int y )
 	return x;
 }
 
-void CNodeBase::AddSelection( ViewInfo& View, int x, int y, int Height )
+void CNodeBase::AddSelection( const ViewInfo& View, int x, int y, int Height )
 {
 	if ((y > View.client->bottom) || (y + Height < 0))
 		return;
@@ -159,11 +159,11 @@ void CNodeBase::AddSelection( ViewInfo& View, int x, int y, int Height )
 	if (m_bSelected)
 		View.dc->FillSolidRect( 0, y, View.client->right, Height, g_crSelect );
 
-	CRect pos( 0, y, 1024, y + Height );
+	CRect pos( 0, y, INT_MAX, y + Height );
 	AddHotSpot( View, pos, CString( ), 0, HS_SELECT );
 }
 
-int CNodeBase::AddIcon( ViewInfo& View, int x, int y, int idx, int ID, int Type )
+int CNodeBase::AddIcon( const ViewInfo& View, int x, int y, int idx, int ID, int Type )
 {
 	if ((y > View.client->bottom) || (y + 16 < 0))
 		return x + 16;
@@ -179,14 +179,14 @@ int CNodeBase::AddIcon( ViewInfo& View, int x, int y, int idx, int ID, int Type 
 	return x + 16;
 }
 
-int CNodeBase::AddOpenClose( ViewInfo& View, int x, int y )
+int CNodeBase::AddOpenClose( const ViewInfo& View, int x, int y )
 {
 	if ((y > View.client->bottom) || (y + 16 < 0))
 		return x + 16;
 	return m_LevelsOpen[View.Level] ? AddIcon( View, x, y, ICON_OPEN, 0, HS_OPENCLOSE ) : AddIcon( View, x, y, ICON_CLOSED, 0, HS_OPENCLOSE );
 }
 
-void CNodeBase::AddDelete( ViewInfo& View, int x, int y )
+void CNodeBase::AddDelete( const ViewInfo& View, int x, int y )
 {
 	if ((y > View.client->bottom) || (y + 16 < 0))
 		return;
@@ -201,7 +201,7 @@ void CNodeBase::AddDelete( ViewInfo& View, int x, int y )
 //	if (m_bSelected)AddIcon(View,16,y,ICON_ADD,HS_NONE,HS_NONE);
 //}
 
-void CNodeBase::AddTypeDrop( ViewInfo& View, int x, int y )
+void CNodeBase::AddTypeDrop( const ViewInfo& View, int x, int y )
 {
 	if (View.bMultiSelected || ((y > View.client->bottom) || (y + 16 < 0)))
 		return;
@@ -210,7 +210,7 @@ void CNodeBase::AddTypeDrop( ViewInfo& View, int x, int y )
 		AddIcon( View, 0, y, ICON_DROPARROW, 0, HS_DROP );
 }
 
-int CNodeBase::ResolveRTTI( ULONG_PTR Address, int &x, ViewInfo& View, int y )
+int CNodeBase::ResolveRTTI( ULONG_PTR Address, int &x, const ViewInfo& View, int y )
 {
 	#ifdef _WIN64
 	ULONG_PTR ModuleBase = 0;
@@ -410,7 +410,7 @@ int CNodeBase::ResolveRTTI( ULONG_PTR Address, int &x, ViewInfo& View, int y )
 	return x;
 }
 
-int CNodeBase::AddComment( ViewInfo& View, int x, int y )
+int CNodeBase::AddComment( const ViewInfo& View, int x, int y )
 {
 	x = AddText( View, x, y, g_crComment, HS_NONE, _T( "//" ) );
 	// Need the extra whitespace in "%s " after the %s to edit.
@@ -492,7 +492,7 @@ int CNodeBase::AddComment( ViewInfo& View, int x, int y )
 
 				for (int i = 0; i < 8; i++)
 				{
-					if (!isprint( (unsigned char)txt[i] ))
+					if (!(txt[i] > 0x1F && txt[i] < 0xFF && txt[i] != 0x7F))
 						bAddStr = false;
 				}
 
@@ -583,12 +583,12 @@ int CNodeBase::AddComment( ViewInfo& View, int x, int y )
 			if (g_bString)
 			{
 				bool bAddStr = true;
-				char txt[64];
-				ReClassReadMemory( (LPVOID)uintVal, txt, 64 ); // TODO: find out why it looks wrong
+				char txt[64] = { 0 };
+				ReClassReadMemory( (LPVOID)uintVal, txt, 64 );
 
 				for (int i = 0; i < 4; i++)
 				{
-					if (!isprint( (unsigned char)txt[i] ))
+					if (!(txt[i] > 0x1F && txt[i] < 0xFF && txt[i] != 0x7F))
 						bAddStr = false;
 				}
 
@@ -600,11 +600,19 @@ int CNodeBase::AddComment( ViewInfo& View, int x, int y )
 			}
 		}
 	}
+	else if (m_nodeType == nt_hex16)
+	{
+		if (g_bInt)
+		{
+			short intVal = *((short*)&View.pData[m_Offset]);
+			x = (intVal == 0) ? AddText( View, x, y, g_crValue, HS_NONE, _T( "(%i)" ), intVal ) : AddText( View, x, y, g_crValue, HS_NONE, _T( "(0x%X)" ), intVal );
+		}
+	}
 
 	return x;
 }
 
-void CNodeBase::StandardUpdate( HotSpot &Spot )
+void CNodeBase::StandardUpdate( const HotSpot &Spot )
 {
 	if (Spot.ID == HS_NAME)
 		m_strName = Spot.Text;
@@ -612,7 +620,7 @@ void CNodeBase::StandardUpdate( HotSpot &Spot )
 		m_strComment = Spot.Text;
 }
 
-NodeSize CNodeBase::DrawHidden( ViewInfo& View, int x, int y )
+NodeSize CNodeBase::DrawHidden( const ViewInfo& View, int x, int y )
 {
 	NodeSize drawnSize = { 0 };
 	View.dc->FillSolidRect( 0, y, View.client->right, 1, (m_bSelected) ? g_crSelect : g_crHidden );

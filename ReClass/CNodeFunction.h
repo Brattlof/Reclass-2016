@@ -2,7 +2,7 @@
 
 #include "CNodeBase.h"
 #include "CScintillaEdit.h"
-#include "CChildView.h"
+#include "CClassView.h"
 
 class CNodeFunction : public CNodeBase
 {
@@ -10,13 +10,13 @@ public:
 	CNodeFunction( );
 	~CNodeFunction( );
 
-	virtual void Update( HotSpot& Spot );
+	virtual void Update( const HotSpot& Spot );
 
 	virtual ULONG GetMemorySize( ) { return m_dwMemorySize; }
 
-	virtual NodeSize Draw( ViewInfo& View, int x, int y );
+	virtual NodeSize Draw( const ViewInfo& View, int x, int y );
 
-	void Initialize( CChildView* pChild, ULONG_PTR Address );
+	void Initialize( CClassView* pChild, ULONG_PTR Address );
 
 private:
 	void DisassembleBytes( ULONG_PTR Address );

@@ -7,13 +7,13 @@
 #include "CCustomEdit.h"
 #include "CCustomToolTip.h"
 
-// CChildView window
-class CChildView : public CWnd
+// CClassView window
+class CClassView : public CWnd
 {
 	// Construction
 public:
-	CChildView( );
-	virtual ~CChildView( );
+	CClassView( );
+	virtual ~CClassView( );
 
 	// Overrides
 protected:
@@ -183,6 +183,9 @@ public:
 
 	afx_msg void OnTypeArray( );
 	afx_msg void OnUpdateTypeArray( CCmdUI *pCmdUI );
+
+	afx_msg void OnTypePtrArray( );
+	afx_msg void OnUpdateTypePtrArray( CCmdUI *pCmdUI );
 
 	afx_msg void OnTypeClass( );
 	afx_msg void OnUpdateTypeClass( CCmdUI *pCmdUI );

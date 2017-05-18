@@ -2,11 +2,15 @@
 //
 
 #include "stdafx.h"
-#include "afxdialogex.h"
+
+#include <afxdialogex.h>
+
+#include "ReClassEx.h"
 
 #include "DialogProcSelect.h"
 #include "DialogProgress.h"
-#include "ReClass2016.h"
+
+#include "CMainFrame.h"
 
 #include <memory>
 #include <algorithm>
@@ -70,8 +74,10 @@ void CDialogProcSelect::ListRunningProcs( )
 	PSYSTEM_PROCESS_INFORMATION ProcessInfo = NULL;
 	std::unique_ptr<uint8_t[]> BufferArray;
 	ULONG BufferSize = 0;
+	NTSTATUS status;
 
-	if (NT_SUCCESS( ntdll::NtQuerySystemInformation( SystemProcessInformation, NULL, NULL, &BufferSize ) ))
+	status = ntdll::NtQuerySystemInformation( SystemProcessInformation, NULL, NULL, &BufferSize );
+	if (status != STATUS_SUCCESS && status != STATUS_INFO_LENGTH_MISMATCH)
 	{
 		#ifdef _DEBUG
 		PrintOut( _T( "[CDialogProcSelect::RefreshRunningProcesses] Failed to get size for system process list from ProcessBasicInformation" ) );
@@ -88,15 +94,13 @@ void CDialogProcSelect::ListRunningProcs( )
 		m_bLoadingProcesses = TRUE;
 
 		ProcessInfo = (PSYSTEM_PROCESS_INFORMATION)BufferArray.get( );
-
-		while ((ProcessInfo != NULL) && (ProcessInfo->NextEntryOffset != 0))
+		while (ProcessInfo)
 		{
-			if (ProcessInfo->ImageName.Buffer && ProcessInfo->ImageName.Length)
+			if (ProcessInfo->ImageName.Buffer && ProcessInfo->ImageName.Length > 0)
 			{
-				if (
-					m_FilterCheck.GetCheck( ) != BST_CHECKED || 
+				if (m_FilterCheck.GetCheck( ) != BST_CHECKED || 
 					CommonProcesses.end( ) == std::find_if( CommonProcesses.begin( ), CommonProcesses.end( ), 
-															[ProcessInfo] ( const wchar_t* proc ) { return _wcsnicmp( proc, ProcessInfo->ImageName.Buffer, ProcessInfo->ImageName.Length ) == 0; } )
+															[ProcessInfo] ( const wchar_t* proc ) { return _wcsnicmp( proc, ProcessInfo->ImageName.Buffer, ProcessInfo->ImageName.MaximumLength / sizeof(wchar_t) ) == 0; } )
 					)
 				{
 					HANDLE hProcess = ReClassOpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, (DWORD)ProcessInfo->UniqueProcessId );
@@ -139,6 +143,11 @@ void CDialogProcSelect::ListRunningProcs( )
 					CloseHandle( hProcess );
 				}
 			}
+
+			// Make sure not to loop infinitely (Fix for issue where refresh wasnt updating closed applications)
+			if (ProcessInfo->NextEntryOffset == 0) 
+				break;
+
 			ProcessInfo = (PSYSTEM_PROCESS_INFORMATION)((uint8_t*)ProcessInfo + ProcessInfo->NextEntryOffset);
 		}
 	}
@@ -269,35 +278,9 @@ void CDialogProcSelect::OnAttachButton( )
 
 				if (g_bSymbolResolution && m_LoadAllSymbols.GetCheck( ) == BST_CHECKED)
 				{
-					CDialogProgress* ProgressDialog = new CDialogProgress( this );
-					ULONG nModules = (ULONG)g_MemMapModules.size( );
-
-					ProgressDialog->Create( CDialogProgress::IDD, this );
-					ProgressDialog->ShowWindow( SW_SHOW );
-
-					ProgressDialog->Bar( ).SetRange32( 0, nModules );
-					ProgressDialog->Bar( ).SetStep( 1 );
-
-					for (ULONG i = 0; i < nModules; i++)
-					{
-						TCHAR tcsProgressText[64] = { 0 };
-						MemMapInfo CurrentModule = g_MemMapModules[i];
-
-						_stprintf_s( tcsProgressText, 64, _T( "[%d/%d] %s" ), i + 1, nModules, CurrentModule.Name.GetString( ) );
-						ProgressDialog->SetProgressText( tcsProgressText );
-
-						if (g_ReClassApp.m_pSymbolLoader->LoadSymbolsForModule( CurrentModule.Path, CurrentModule.Start, CurrentModule.Size ) == FALSE)
-						{
-							PrintOut( _T( "Failed to load symbols for %s (%s)" ), 
-									  CurrentModule.Name.GetString( ), FoundProcessInfo->strProcessName.GetString( ) );
-						}
-
-						ProgressDialog->Bar( ).StepIt( );
-					}
-
-					ProgressDialog->EndDialog( 0 );
-
-					delete ProgressDialog;
+					OnClose( );
+					g_ReClassApp.GetMainFrame( )->OnLoadSymbols( );
+					return;
 				}
 
 				OnClose( );

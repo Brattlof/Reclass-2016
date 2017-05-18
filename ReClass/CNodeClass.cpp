@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CNodeClass.h"
+#include "CClassFrame.h"
 
 CNodeClass::CNodeClass( )
 {
@@ -16,11 +17,11 @@ CNodeClass::CNodeClass( )
 	m_strOffset.SetString( szOffset );
 
 	RequestPosition = -1;
-	idx = 0;
+	Idx = 0;
 	pChildWindow = nullptr;
 }
 
-void CNodeClass::Update( HotSpot & Spot )
+void CNodeClass::Update( const HotSpot& Spot )
 {
 	StandardUpdate( Spot );
 	if (Spot.ID == 0)
@@ -42,7 +43,7 @@ ULONG CNodeClass::GetMemorySize( )
 	return size;
 }
 
-NodeSize CNodeClass::Draw( ViewInfo& View, int x, int y )
+NodeSize CNodeClass::Draw( const ViewInfo& View, int x, int y )
 {
 	NodeSize drawnSize = { 0 };
 	NodeSize childDrawnSize;
@@ -61,14 +62,13 @@ NodeSize CNodeClass::Draw( ViewInfo& View, int x, int y )
 	// printf( "Print %s at %d\n", m_strOffset, x );
 
 	x = AddText( View, x, y, g_crIndex, HS_NONE, _T( "(" ) );
-	x = AddText( View, x, y, g_crIndex, HS_OPENCLOSE, _T( "%i" ), idx );
+	x = AddText( View, x, y, g_crIndex, HS_OPENCLOSE, _T( "%i" ), Idx );
 	x = AddText( View, x, y, g_crIndex, HS_NONE, _T( ")" ) );
 
 	x = AddText( View, x, y, g_crType, HS_NONE, _T( "Class " ) );
 	x = AddText( View, x, y, g_crName, HS_NAME, m_strName ) + g_FontWidth;
 	x = AddText( View, x, y, g_crValue, HS_NONE, _T( "[%i]" ), GetMemorySize( ) ) + g_FontWidth;
 	x = AddComment( View, x, y );
-
 
 	drawnSize.x = x;
 	y += g_FontHeight;
@@ -80,13 +80,24 @@ NodeSize CNodeClass::Draw( ViewInfo& View, int x, int y )
 
 		for (UINT i = 0; i < m_ChildNodes.size( ); i++)
 		{
-			childDrawnSize = m_ChildNodes[i]->Draw( nv, tx, y );
-			y = childDrawnSize.y;
-			if (childDrawnSize.x > drawnSize.x)
-			{
-				drawnSize.x = childDrawnSize.x;
-			}
+			CNodeBase* pNode = m_ChildNodes[i];
+			if (pNode != nullptr)
+			{			
+				if (pNode->GetType( ) == nt_vtable)
+				{
+					CNodeVTable* pVTableNode = static_cast<CNodeVTable*>(pNode);
+					if (!pVTableNode->IsInitialized( ) && pChildWindow != nullptr)
+						pVTableNode->Initialize( static_cast<CWnd*>(pChildWindow->GetChildView( )) );
+				}
 
+				childDrawnSize = pNode->Draw( nv, tx, y );
+
+				y = childDrawnSize.y;
+				if (childDrawnSize.x > drawnSize.x)
+				{
+					drawnSize.x = childDrawnSize.x;
+				}
+			}
 		}
 	}
 

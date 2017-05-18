@@ -5,11 +5,11 @@ class CNodeArray : public CNodeBase
 public:
 	CNodeArray( );
 
-	virtual void Update( HotSpot& Spot );
+	virtual void Update( const HotSpot& Spot );
 
 	virtual ULONG GetMemorySize( );
 
-	virtual NodeSize Draw( ViewInfo& View, int x, int y );
+	virtual NodeSize Draw( const ViewInfo& View, int x, int y );
 
 	void SetTotal( DWORD total ) { m_dwTotal = total; }
 	DWORD GetTotal( void ) { return m_dwTotal; }
@@ -17,7 +17,7 @@ public:
 	void SetClass( CNodeClass* pNode ) { m_pNode = pNode; }
 	CNodeClass* GetClass( void ) { return m_pNode; }
 
-private:
+protected:
 	CNodeClass* m_pNode;
 	DWORD m_dwTotal;
 	int m_iCurrent;

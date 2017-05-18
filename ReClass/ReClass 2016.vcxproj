@@ -22,7 +22,7 @@
     <ProjectGuid>{FA80DCEB-16C4-43D1-8451-6EE506D5FF82}</ProjectGuid>
     <RootNamespace>ReClass2015</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <ProjectName>ReClass</ProjectName>
+    <ProjectName>ReClassEx</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -351,6 +351,7 @@
     <ClInclude Include="CNodeInt8.h" />
     <ClInclude Include="CNodeMatrix.h" />
     <ClInclude Include="CNodePtr.h" />
+    <ClInclude Include="CNodePtrArray.h" />
     <ClInclude Include="CNodeQuat.h" />
     <ClInclude Include="CNodeQWORD.h" />
     <ClInclude Include="CNodeText.h" />
@@ -361,11 +362,12 @@
     <ClInclude Include="CNodeWCharPtr.h" />
     <ClInclude Include="CNodeWORD.h" />
     <ClInclude Include="CScintillaEdit.h" />
+    <ClInclude Include="CProgressBar.h" />
     <ClInclude Include="DialogAbout.h" />
     <ClInclude Include="BitArray.h" />
-    <ClInclude Include="CChildFrame.h" />
-    <ClInclude Include="CChildView.h" />
-    <ClInclude Include="Classes.h" />
+    <ClInclude Include="CClassFrame.h" />
+    <ClInclude Include="CClassView.h" />
+    <ClInclude Include="Nodes.h" />
     <ClInclude Include="CMemory.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DialogClasses.h" />
@@ -393,7 +395,7 @@
     <ClInclude Include="Native.h" />
     <ClInclude Include="PluginAPI.h" />
     <ClInclude Include="SymbolReader.h" />
-    <ClInclude Include="ReClass2016.h" />
+    <ClInclude Include="ReClassEx.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Symbols.h" />
@@ -404,8 +406,8 @@
   <ItemGroup>
     <ClCompile Include="CCustomEdit.cpp" />
     <ClCompile Include="CCustomToolTip.cpp" />
-    <ClCompile Include="CChildFrame.cpp" />
-    <ClCompile Include="CChildView.cpp" />
+    <ClCompile Include="CClassFrame.cpp" />
+    <ClCompile Include="CClassView.cpp" />
     <ClCompile Include="CNodeArray.cpp" />
     <ClCompile Include="CNodeBase.cpp" />
     <ClCompile Include="CNodeBits.cpp" />
@@ -430,6 +432,7 @@
     <ClCompile Include="CNodeInt8.cpp" />
     <ClCompile Include="CNodeMatrix.cpp" />
     <ClCompile Include="CNodePtr.cpp" />
+    <ClCompile Include="CNodePtrArray.cpp" />
     <ClCompile Include="CNodeQuat.cpp" />
     <ClCompile Include="CNodeQWORD.cpp" />
     <ClCompile Include="CNodeText.cpp" />
@@ -440,6 +443,7 @@
     <ClCompile Include="CNodeWCharPtr.cpp" />
     <ClCompile Include="CNodeWORD.cpp" />
     <ClCompile Include="CScintillaEdit.cpp" />
+    <ClCompile Include="CProgressBar.cpp" />
     <ClCompile Include="DialogAbout.cpp" />
     <ClCompile Include="DialogClasses.cpp" />
     <ClCompile Include="DialogConsole.cpp" />
@@ -453,7 +457,7 @@
     <ClCompile Include="NtDll.cpp" />
     <ClCompile Include="PluginAPI.cpp" />
     <ClCompile Include="SymbolReader.cpp" />
-    <ClCompile Include="ReClass2016.cpp" />
+    <ClCompile Include="ReClassEx.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

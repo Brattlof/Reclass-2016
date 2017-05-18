@@ -30,6 +30,8 @@ ReClass Extended
 - Added Ctrl+S hotkey for file saving, and others.
 - Added Plugin API for making plugins
 - Disassembly syntax highlighting (buggy)
+- View unsigned types in hexidecimal form via toggle
+- Not really a feature but the [reclass files](https://github.com/dude719/ReClassEx/tree/master/reclass%20files) folder contains a heap of reclass files with a ton already reversed for various programs
 
 ![Alt text](http://i.imgur.com/W6ytfG6.png "Automatic symbol resolving")
 ![Alt text](http://i.imgur.com/hBNyEFG.png "ReClass")

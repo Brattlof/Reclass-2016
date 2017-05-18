@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "ReClass2016.h"
+#include "ReClassEx.h"
 #include "DialogClasses.h"
 
 #include "CMainFrame.h"
-#include "CChildFrame.h"
+#include "CClassFrame.h"
 
 #include "afxdialogex.h"
 
@@ -40,12 +40,12 @@ void CDialogClasses::BuildList( )
 
 	m_ClassViewList.SetImageList( &m_ImageList, LVSIL_SMALL );
 
-	for (UINT i = 0; i < g_ReClassApp.m_Classes.size( ); i++)
+	for (size_t i = 0; i < g_ReClassApp.m_Classes.size( ); i++)
 	{
 		CString name = g_ReClassApp.m_Classes[i]->GetName( );
 		if (m_Filter.GetLength( ) != 0 && name.MakeUpper( ).Find( m_Filter.MakeUpper( ) ) == -1)
 			continue;
-		AddData( i, 0, name );
+		AddData( (int)i, 0, name );
 	}
 }
 
@@ -68,15 +68,15 @@ BOOL CDialogClasses::OnInitDialog( )
 	return TRUE;
 }
 
-__inline int FindClassByName( const TCHAR* szName )
+inline int FindClassByName( const TCHAR* szName )
 {
-	for (int id = 0; id < g_ReClassApp.m_Classes.size( ); id++)
+	for (size_t id = 0; id < g_ReClassApp.m_Classes.size( ); id++)
 	{
 		CNodeClass* pNodeClass = g_ReClassApp.m_Classes[id];
 		if (!pNodeClass)
 			continue;
 		if (_tcsicmp( pNodeClass->GetName( ), szName ) == 0)
-			return id;
+			return (int)id;
 	}
 	return -1;
 };
@@ -98,7 +98,7 @@ void CDialogClasses::OnOK( )
 
 		// Thanks timboy67678
 		CMainFrame*  pFrame = STATIC_DOWNCAST( CMainFrame, AfxGetApp( )->m_pMainWnd );
-		CChildFrame* pChild = g_ReClassApp.m_Classes[nItem]->pChildWindow;
+		CClassFrame* pChild = g_ReClassApp.m_Classes[nItem]->pChildWindow;
 
 		// Check if its a window first to dodge the assertion in IsWindowVisible
 		if (pChild && IsWindow( pChild->GetSafeHwnd( ) ) && pChild->IsWindowVisible( ))
@@ -107,7 +107,7 @@ void CDialogClasses::OnOK( )
 		}
 		else
 		{
-			CChildFrame* pNewChild = STATIC_DOWNCAST( CChildFrame, pFrame->CreateNewChild( RUNTIME_CLASS( CChildFrame ), IDR_ReClass2016TYPE, g_ReClassApp.m_hMDIMenu, g_ReClassApp.m_hMDIAccel ) );
+			CClassFrame* pNewChild = STATIC_DOWNCAST( CClassFrame, pFrame->CreateNewChild( RUNTIME_CLASS( CClassFrame ), IDR_ReClass2016TYPE, g_ReClassApp.m_hMDIMenu, g_ReClassApp.m_hMDIAccel ) );
 			pNewChild->SetClass( g_ReClassApp.m_Classes[nItem] );
 			pNewChild->SetTitle( g_ReClassApp.m_Classes[nItem]->GetName( ) );
 			pNewChild->SetWindowText( g_ReClassApp.m_Classes[nItem]->GetName( ) );

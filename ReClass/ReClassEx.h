@@ -11,10 +11,10 @@
 // Symbols
 #include "Symbols.h"
 
-class CReClass2016App : public CWinAppEx
+class CReClassExApp : public CWinAppEx
 {
 public:
-	CReClass2016App( );
+	CReClassExApp( );
 
 // App Globals
 	CString m_strHeader;
@@ -37,7 +37,8 @@ public:
 
 // Implementation
 	class CMainFrame* GetMainFrame( );
-	CMFCRibbonBar* GetRibbonBar( );
+	class CMFCRibbonBar* GetRibbonBar( );
+	class CStatusBar* GetStatusBar( );
 
 	CNodeBase* CreateNewNode( NodeType Type );
 	bool IsNodeValid( CNodeBase* pCheckNode );

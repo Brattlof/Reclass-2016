@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "ReClass2016.h"
+#include "ReClassEx.h"
 
 #include "afxwinappex.h"
 #include "afxdialogex.h"
 
 #include "CMainFrame.h"
-#include "CChildFrame.h"
+#include "CClassFrame.h"
 
 #include "DialogEdit.h"
 #include "DialogClasses.h"
@@ -16,42 +16,42 @@
 
 
 // The one and only CReClass2016App object
-CReClass2016App g_ReClassApp;
+CReClassExApp g_ReClassApp;
 
 // CReClass2016App
-BEGIN_MESSAGE_MAP( CReClass2016App, CWinAppEx )
-	ON_COMMAND( ID_APP_ABOUT, &CReClass2016App::OnAppAbout )
-	ON_COMMAND( ID_FILE_NEW, &CReClass2016App::OnFileNew )
-	ON_COMMAND( ID_FILE_SAVE, &CReClass2016App::OnFileSave )
-	ON_COMMAND( ID_FILE_SAVE_AS, &CReClass2016App::OnFileSaveAs )
-	ON_COMMAND( ID_FILE_OPEN, &CReClass2016App::OnFileOpen )
-	ON_COMMAND( ID_FILE_OPEN_PDB, &CReClass2016App::OnOpenPDB )
-	ON_COMMAND( ID_RECLASS_PLUGINS, &CReClass2016App::OnButtonPlugins )
-	ON_COMMAND( ID_BUTTON_NEWCLASS, &CReClass2016App::OnButtonNewClass )
-	ON_COMMAND( ID_BUTTON_NOTES, &CReClass2016App::OnButtonNotes )
-	ON_COMMAND( ID_BUTTON_SEARCH, &CReClass2016App::OnButtonSearch )
-	ON_COMMAND( ID_BUTTON_CONSOLE, &CReClass2016App::OnButtonConsole )
-	ON_COMMAND( ID_BUTTON_MODULES, &CReClass2016App::OnButtonModules )
-	ON_COMMAND( ID_BUTTON_PARSER, &CReClass2016App::OnButtonParser )
-	ON_COMMAND( ID_BUTTON_HEADER, &CReClass2016App::OnButtonHeader )
-	ON_COMMAND( ID_BUTTON_FOOTER, &CReClass2016App::OnButtonFooter )
-	ON_COMMAND( ID_BUTTON_RESET, &CReClass2016App::OnButtonReset )
-	ON_COMMAND( ID_BUTTON_PAUSE, &CReClass2016App::OnButtonPause )
-	ON_COMMAND( ID_BUTTON_RESUME, &CReClass2016App::OnButtonResume )
-	ON_COMMAND( ID_BUTTON_KILL, &CReClass2016App::OnButtonKill )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_PAUSE, &CReClass2016App::OnUpdateButtonPause )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_RESUME, &CReClass2016App::OnUpdateButtonResume )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_KILL, &CReClass2016App::OnUpdateButtonKill )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_SEARCH, &CReClass2016App::OnUpdateButtonSearch )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_MODULES, &CReClass2016App::OnUpdateButtonModules )
-	ON_UPDATE_COMMAND_UI( ID_RECLASS_PLUGINS, &CReClass2016App::OnUpdateButtonPlugins )
-	ON_COMMAND( ID_BUTTON_GENERATE, &CReClass2016App::OnButtonGenerate )
-	ON_COMMAND( ID_BUTTON_CLEAN, &CReClass2016App::OnButtonClean )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_CLEAN, &CReClass2016App::OnUpdateButtonClean )
-	ON_UPDATE_COMMAND_UI( ID_FILE_OPEN_PDB, &CReClass2016App::OnUpdateOpenPDB )
+BEGIN_MESSAGE_MAP( CReClassExApp, CWinAppEx )
+	ON_COMMAND( ID_APP_ABOUT, &CReClassExApp::OnAppAbout )
+	ON_COMMAND( ID_FILE_NEW, &CReClassExApp::OnFileNew )
+	ON_COMMAND( ID_FILE_SAVE, &CReClassExApp::OnFileSave )
+	ON_COMMAND( ID_FILE_SAVE_AS, &CReClassExApp::OnFileSaveAs )
+	ON_COMMAND( ID_FILE_OPEN, &CReClassExApp::OnFileOpen )
+	ON_COMMAND( ID_FILE_OPEN_PDB, &CReClassExApp::OnOpenPDB )
+	ON_COMMAND( ID_RECLASS_PLUGINS, &CReClassExApp::OnButtonPlugins )
+	ON_COMMAND( ID_BUTTON_NEWCLASS, &CReClassExApp::OnButtonNewClass )
+	ON_COMMAND( ID_BUTTON_NOTES, &CReClassExApp::OnButtonNotes )
+	ON_COMMAND( ID_BUTTON_SEARCH, &CReClassExApp::OnButtonSearch )
+	ON_COMMAND( ID_BUTTON_CONSOLE, &CReClassExApp::OnButtonConsole )
+	ON_COMMAND( ID_BUTTON_MODULES, &CReClassExApp::OnButtonModules )
+	ON_COMMAND( ID_BUTTON_PARSER, &CReClassExApp::OnButtonParser )
+	ON_COMMAND( ID_BUTTON_HEADER, &CReClassExApp::OnButtonHeader )
+	ON_COMMAND( ID_BUTTON_FOOTER, &CReClassExApp::OnButtonFooter )
+	ON_COMMAND( ID_BUTTON_RESET, &CReClassExApp::OnButtonReset )
+	ON_COMMAND( ID_BUTTON_PAUSE, &CReClassExApp::OnButtonPause )
+	ON_COMMAND( ID_BUTTON_RESUME, &CReClassExApp::OnButtonResume )
+	ON_COMMAND( ID_BUTTON_KILL, &CReClassExApp::OnButtonKill )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_PAUSE, &CReClassExApp::OnUpdateButtonPause )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_RESUME, &CReClassExApp::OnUpdateButtonResume )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_KILL, &CReClassExApp::OnUpdateButtonKill )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_SEARCH, &CReClassExApp::OnUpdateButtonSearch )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_MODULES, &CReClassExApp::OnUpdateButtonModules )
+	ON_UPDATE_COMMAND_UI( ID_RECLASS_PLUGINS, &CReClassExApp::OnUpdateButtonPlugins )
+	ON_COMMAND( ID_BUTTON_GENERATE, &CReClassExApp::OnButtonGenerate )
+	ON_COMMAND( ID_BUTTON_CLEAN, &CReClassExApp::OnButtonClean )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_CLEAN, &CReClassExApp::OnUpdateButtonClean )
+	ON_UPDATE_COMMAND_UI( ID_FILE_OPEN_PDB, &CReClassExApp::OnUpdateOpenPDB )
 END_MESSAGE_MAP( )
 
-CReClass2016App::CReClass2016App( )
+CReClassExApp::CReClassExApp( )
 {
 	TCHAR AppId[256] = { 0 };
 
@@ -63,9 +63,10 @@ CReClass2016App::CReClass2016App( )
 
 	g_FontWidth = FONT_DEFAULT_WIDTH;
 	g_FontHeight = FONT_DEFAULT_HEIGHT;
+
 }
 
-void CReClass2016App::ResizeMemoryFont( int font_width, int font_height )
+void CReClassExApp::ResizeMemoryFont( int font_width, int font_height )
 {
 	g_ViewFont.DeleteObject( );
 
@@ -95,7 +96,7 @@ void CReClass2016App::ResizeMemoryFont( int font_width, int font_height )
 	g_ViewFont.CreateFont( g_FontHeight, g_FontWidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, FIXED_PITCH, g_ViewFontName.GetBuffer( ) );
 }
 
-BOOL CReClass2016App::InitInstance( )
+BOOL CReClassExApp::InitInstance( )
 {
 	#ifdef _DEBUG
 	Utils::CreateDbgConsole( _T( "dbg" ) );
@@ -270,7 +271,7 @@ BOOL CReClass2016App::InitInstance( )
 	return TRUE;
 }
 
-int CReClass2016App::ExitInstance( )
+int CReClassExApp::ExitInstance( )
 {
 	//
 	// Free resources
@@ -359,7 +360,7 @@ int CReClass2016App::ExitInstance( )
 	return CWinAppEx::ExitInstance( );
 }
 
-void CReClass2016App::OnButtonReset( )
+void CReClassExApp::OnButtonReset( )
 {
 	CloseHandle( g_hProcess );
 
@@ -377,46 +378,46 @@ void CReClass2016App::OnButtonReset( )
 	}
 
 	m_Classes.clear( );
+	g_NodeCreateIndex = 0;
 
 	m_strHeader = _T( "" );
 	m_strFooter = _T( "" );
 	m_strNotes = _T( "" );
-
-	m_strCurrentFilePath = "";
+	m_strCurrentFilePath = _T("");
 }
 
-void CReClass2016App::OnButtonPause( )
+void CReClassExApp::OnButtonPause( )
 {
 	PauseResumeThreadList( FALSE );
 }
 
-void CReClass2016App::OnUpdateButtonPause( CCmdUI *pCmdUI )
+void CReClassExApp::OnUpdateButtonPause( CCmdUI *pCmdUI )
 {
 	pCmdUI->Enable( g_hProcess != NULL );
 }
 
-void CReClass2016App::OnButtonResume( )
+void CReClassExApp::OnButtonResume( )
 {
 	PauseResumeThreadList( TRUE );
 }
 
-void CReClass2016App::OnUpdateButtonResume( CCmdUI *pCmdUI )
+void CReClassExApp::OnUpdateButtonResume( CCmdUI *pCmdUI )
 {
 	pCmdUI->Enable( g_hProcess != NULL );
 }
 
-void CReClass2016App::OnButtonKill( )
+void CReClassExApp::OnButtonKill( )
 {
 	TerminateProcess( g_hProcess, 0 );
 	g_hProcess = NULL;
 }
 
-void CReClass2016App::OnUpdateButtonKill( CCmdUI* pCmdUI )
+void CReClassExApp::OnUpdateButtonKill( CCmdUI* pCmdUI )
 {
 	pCmdUI->Enable( g_hProcess != NULL );
 }
 
-void CReClass2016App::CalcOffsets( CNodeClass* pClass )
+void CReClassExApp::CalcOffsets( CNodeClass* pClass )
 {
 	size_t offset = 0;
 	for (UINT i = 0; i < pClass->NodeCount( ); i++)
@@ -426,16 +427,16 @@ void CReClass2016App::CalcOffsets( CNodeClass* pClass )
 	}
 }
 
-void CReClass2016App::CalcAllOffsets( )
+void CReClassExApp::CalcAllOffsets( )
 {
 	for (UINT i = 0; i < m_Classes.size( ); i++)
 		CalcOffsets( m_Classes[i] );
 }
 
-void CReClass2016App::OnFileNew( )
+void CReClassExApp::OnFileNew( )
 {
 	CMainFrame* pFrame = STATIC_DOWNCAST( CMainFrame, m_pMainWnd );
-	CChildFrame* pChild = STATIC_DOWNCAST( CChildFrame, pFrame->CreateNewChild( RUNTIME_CLASS( CChildFrame ), IDR_ReClass2016TYPE, m_hMDIMenu, m_hMDIAccel ) );
+	CClassFrame* pChild = STATIC_DOWNCAST( CClassFrame, pFrame->CreateNewChild( RUNTIME_CLASS( CClassFrame ), IDR_ReClass2016TYPE, m_hMDIMenu, m_hMDIAccel ) );
 	CNodeClass* pClass = new CNodeClass;
 
 	pClass->pChildWindow = pChild;
@@ -458,34 +459,34 @@ void CReClass2016App::OnFileNew( )
 }
 
 // App command to run the dialog
-void CReClass2016App::OnAppAbout( )
+void CReClassExApp::OnAppAbout( )
 {
 	CDialogAbout aboutDlg;
 	aboutDlg.DoModal( );
 }
 
-void CReClass2016App::PreLoadState( )
+void CReClassExApp::PreLoadState( )
 {
 	CString strName;
 	ASSERT( strName.LoadString( IDS_EDIT_MENU ) );
 	GetContextMenuManager( )->AddMenu( strName, IDR_POPUP_EDIT );
 }
 
-void CReClass2016App::LoadCustomState( )
+void CReClassExApp::LoadCustomState( )
 {
 }
 
-void CReClass2016App::SaveCustomState( )
+void CReClassExApp::SaveCustomState( )
 {
 }
 
 // TODO: Actually finish this
-void CReClass2016App::OnFileImport( )
+void CReClassExApp::OnFileImport( )
 {
 	return;
 }
 
-void CReClass2016App::ClearSelection( )
+void CReClassExApp::ClearSelection( )
 {
 	for (UINT i = 0; i < m_Classes.size( ); i++)
 	{
@@ -518,7 +519,7 @@ void CReClass2016App::ClearSelection( )
 	}
 }
 
-void CReClass2016App::ClearHidden( )
+void CReClassExApp::ClearHidden( )
 {
 	for (UINT i = 0; i < m_Classes.size( ); i++)
 	{
@@ -549,7 +550,7 @@ void CReClass2016App::ClearHidden( )
 	}
 }
 
-bool CReClass2016App::IsNodeValid( CNodeBase* pCheckNode )
+bool CReClassExApp::IsNodeValid( CNodeBase* pCheckNode )
 {
 	for (UINT i = 0; i < m_Classes.size( ); i++)
 	{
@@ -588,14 +589,14 @@ bool CReClass2016App::IsNodeValid( CNodeBase* pCheckNode )
 
 
 //////////////// OnButtonNewClass /////////////////
-void CReClass2016App::OnButtonNewClass( )
+void CReClassExApp::OnButtonNewClass( )
 {
 	CMainFrame* pFrame = STATIC_DOWNCAST( CMainFrame, m_pMainWnd );
-	CChildFrame* pChild = STATIC_DOWNCAST( CChildFrame, pFrame->CreateNewChild( RUNTIME_CLASS( CChildFrame ), IDR_ReClass2016TYPE, m_hMDIMenu, m_hMDIAccel ) );
+	CClassFrame* pChild = STATIC_DOWNCAST( CClassFrame, pFrame->CreateNewChild( RUNTIME_CLASS( CClassFrame ), IDR_ReClass2016TYPE, m_hMDIMenu, m_hMDIAccel ) );
 	CNodeClass* pClass = new CNodeClass;
 
 	pClass->SetChildFrame( pChild );
-	pClass->idx = (int)g_ReClassApp.m_Classes.size( );
+	pClass->Idx = g_ReClassApp.m_Classes.size( );
 	pChild->SetClass( pClass );
 
 	g_ReClassApp.m_Classes.push_back( pClass );
@@ -610,34 +611,34 @@ void CReClass2016App::OnButtonNewClass( )
 	CalcOffsets( pClass );
 }
 
-void CReClass2016App::OnButtonSearch( )
+void CReClassExApp::OnButtonSearch( )
 {
 	GetMainWnd( )->MessageBox( _T( "Coming Soon!" ), _T( "WubbaLubbaDubDub" ) );
 }
 
-void CReClass2016App::OnUpdateButtonSearch( CCmdUI *pCmdUI )
+void CReClassExApp::OnUpdateButtonSearch( CCmdUI *pCmdUI )
 {
 	pCmdUI->Enable( g_hProcess != NULL );
 }
 
-void CReClass2016App::OnButtonConsole( )
+void CReClassExApp::OnButtonConsole( )
 {
 	m_pConsole->ShowWindow( SW_SHOW );
 	m_pConsole->SetForegroundWindow( );
 }
 
-void CReClass2016App::OnButtonModules( )
+void CReClassExApp::OnButtonModules( )
 {
 	CDialogModules dlg;
 	dlg.DoModal( );
 }
 
-void CReClass2016App::OnUpdateButtonModules( CCmdUI * pCmdU )
+void CReClassExApp::OnUpdateButtonModules( CCmdUI * pCmdU )
 {
 	pCmdU->Enable( g_hProcess != NULL );
 }
 
-void CReClass2016App::OnButtonNotes( )
+void CReClassExApp::OnButtonNotes( )
 {
 	CDialogEdit dlg;
 	dlg.Title = _T( "Notes" );
@@ -646,13 +647,13 @@ void CReClass2016App::OnButtonNotes( )
 	m_strNotes = dlg.Text;
 }
 
-void CReClass2016App::OnButtonParser( )
+void CReClassExApp::OnButtonParser( )
 {
 	CDialogClasses dlg;
 	dlg.DoModal( );
 }
 
-void CReClass2016App::OnButtonHeader( )
+void CReClassExApp::OnButtonHeader( )
 {
 	CDialogEdit dlg;
 	dlg.Title = _T( "Header" );
@@ -661,7 +662,7 @@ void CReClass2016App::OnButtonHeader( )
 	m_strHeader = dlg.Text;
 }
 
-void CReClass2016App::OnButtonFooter( )
+void CReClassExApp::OnButtonFooter( )
 {
 	CDialogEdit dlg;
 	dlg.Title = _T( "Footer" );
@@ -670,19 +671,24 @@ void CReClass2016App::OnButtonFooter( )
 	m_strFooter = dlg.Text;
 }
 
-CMainFrame* CReClass2016App::GetMainFrame( )
+CMainFrame* CReClassExApp::GetMainFrame( )
 {
 	return STATIC_DOWNCAST( CMainFrame, m_pMainWnd );
 }
 
-CMFCRibbonBar* CReClass2016App::GetRibbonBar( )
+CMFCRibbonBar* CReClassExApp::GetRibbonBar( )
 {
 	return (CMFCRibbonBar*)&GetMainFrame( )->m_RibbonBar;
 }
 
-CNodeBase* CReClass2016App::CreateNewNode( NodeType Type )
+CStatusBar* CReClassExApp::GetStatusBar( )
 {
-	switch (Type)
+	return (CStatusBar*)&GetMainFrame( )->m_StatusBar;
+}
+
+CNodeBase* CReClassExApp::CreateNewNode( NodeType Type )
+{
+	switch ( Type )
 	{
 	case nt_class:			return new CNodeClass;
 
@@ -722,12 +728,14 @@ CNodeBase* CReClass2016App::CreateNewNode( NodeType Type )
 
 	case nt_pointer:		return new CNodePtr;
 	case nt_array:			return new CNodeArray;
+	case nt_ptrarray:		return new CNodePtrArray;
+
 	case nt_instance:		return new CNodeClassInstance;
 	}
 	return NULL;
 }
 
-void CReClass2016App::SaveXML( TCHAR* FileName )
+void CReClassExApp::SaveXML( TCHAR* FileName )
 {
 	PrintOut( _T( "SaveXML(\"%s\") called" ), FileName );
 
@@ -874,8 +882,26 @@ void CReClass2016App::SaveXML( TCHAR* FileName )
 				item->SetAttribute( "Size", (UINT)pArray->GetClass( )->GetMemorySize( ) );
 				item->SetAttribute( "Comment", strArrayNodeComment );
 				pXmlNode->LinkEndChild( item );
-			}
-			else if (pNode->GetType( ) == nt_pointer)
+			}else if( pNode->GetType() == nt_ptrarray )
+			{ 
+				CNodePtrArray* pArray = (CNodePtrArray*)pNode;
+				pXmlNode->SetAttribute( "Count", (UINT)pArray->Count( ) );
+
+				#ifdef UNICODE
+				CStringA strArrayNodeName = CW2A( pArray->GetClass()->GetName() );
+				CStringA strArrayNodeComment = CW2A( pArray->GetClass()->GetComment() );
+				#else
+				CStringA strArrayNodeName = pArray->GetClass()->GetName();
+				CStringA strArrayNodeComment = pArray->GetClass()->GetComment();
+				#endif
+
+				XMLElement *item = doc.NewElement( "Array" );
+				item->SetAttribute( "Name", strArrayNodeName );
+				item->SetAttribute( "Type", pArray->GetClass( )->GetType( ) );
+				item->SetAttribute( "Size", (UINT)pArray->GetClass( )->GetMemorySize( ) );
+				item->SetAttribute( "Comment", strArrayNodeComment );
+				pXmlNode->LinkEndChild( item );
+			}else if (pNode->GetType( ) == nt_pointer)
 			{
 				CNodePtr* pPointer = (CNodePtr*)pNode;
 				#ifdef UNICODE
@@ -931,15 +957,15 @@ void CReClass2016App::SaveXML( TCHAR* FileName )
 		}
 	}
 
-	char szFilename[MAX_PATH] = { 0 };
+	FILE* fp = NULL;
 	#ifdef UNICODE
-	size_t converted = 0;
-	wcstombs_s( &converted, szFilename, FileName, MAX_PATH );
+	_wfopen_s( &fp, FileName, L"wb" );
 	#else
-	strcpy_s( szFilename, FileName );
+	fopen_s( &fp, FileName, "wb" );
 	#endif
+	XMLError err = doc.SaveFile( fp );
+	fclose( fp );
 
-	XMLError err = doc.SaveFile( szFilename );
 	if (err == XML_NO_ERROR)
 	{
 		PrintOut( _T( "ReClass files saved successfully to \"%s\"" ), FileName );
@@ -949,7 +975,7 @@ void CReClass2016App::SaveXML( TCHAR* FileName )
 	PrintOut( _T( "Failed to save file to \"%s\". Error %d" ), FileName, err );
 }
 
-void CReClass2016App::OnFileSave( )
+void CReClassExApp::OnFileSave( )
 {
 	if (m_strCurrentFilePath.IsEmpty( ))
 	{
@@ -961,7 +987,7 @@ void CReClass2016App::OnFileSave( )
 	}
 }
 
-void CReClass2016App::OnFileSaveAs( )
+void CReClassExApp::OnFileSaveAs( )
 {
 	TCHAR Filters[] = _T( "ReClass (*.reclass)|*.reclass|All Files (*.*)|*.*||" );
 	CFileDialog fileDlg( FALSE, _T( "reclass" ), _T( "" ), OFN_HIDEREADONLY, Filters, NULL );
@@ -973,31 +999,49 @@ void CReClass2016App::OnFileSaveAs( )
 	SaveXML( pathName.GetBuffer( ) );
 }
 
-void CReClass2016App::OnFileOpen( )
+void CReClassExApp::OnFileOpen( )
 {
 	TCHAR Filters[] = _T( "ReClass (*.reclass)|*.reclass|All Files (*.*)|*.*||" );
-	CFileDialog fileDlg( TRUE, _T( "reclass" ), _T( "" ), OFN_FILEMUSTEXIST | OFN_HIDEREADONLY, Filters, NULL );
+	
+	CFileDialog fileDlg( TRUE, _T( "reclass" ), _T( "" ), OFN_FILEMUSTEXIST | OFN_HIDEREADONLY, Filters );
 	if (fileDlg.DoModal( ) != IDOK)
 		return;
 
 	CString pathName = fileDlg.GetPathName( );
 
-	OnButtonReset( );
+	CMDIFrameWnd* pFrame = STATIC_DOWNCAST( CMDIFrameWnd, m_pMainWnd );
+	CMDIChildWnd* pChildWnd = pFrame->MDIGetActive( );
+
+	while ( pChildWnd )
+	{
+		pChildWnd->SendMessage( WM_CLOSE, 0, 0 );
+		pChildWnd = pFrame->MDIGetActive( );
+	}
+
+	m_Classes.clear( );
+
+	m_strHeader = _T( "" );
+	m_strFooter = _T( "" );
+	m_strNotes = _T( "" );
+	m_strCurrentFilePath = _T( "" );
 
 	TiXMLDocument doc;
 
 	#ifdef UNICODE
 	#define _CA2W(psz) CA2W(psz)
-	// Convert path to mbs in unicode mode
-	char szFilename[MAX_PATH] = { 0 };
-	size_t converted = 0;
-	wcstombs_s( &converted, szFilename, pathName, MAX_PATH );
 	#else
 	#define _CA2W(psz) (psz)
-	char* szFilename = pathName.GetBuffer( );
 	#endif
 
-	XMLError ret = doc.LoadFile( szFilename );
+	FILE* fp = NULL;
+	#ifdef UNICODE
+	_wfopen_s( &fp, pathName, L"rb" );
+	#else
+	fopen_s( &fp, pathName, "rb" );
+	#endif
+	XMLError ret = doc.LoadFile( fp );
+	fclose( fp );
+
 	if (ret != XML_NO_ERROR)
 		return;
 
@@ -1015,6 +1059,7 @@ void CReClass2016App::OnFileOpen( )
 		return;
 
 	const char* v = pXmlCurrentElement->Value( );
+
 	if (_stricmp( v, "ReClass" ) != 0) // The root element value is 'ReClass'
 		return; // Not a Reclass file
 
@@ -1072,29 +1117,31 @@ void CReClass2016App::OnFileOpen( )
 
 				if (Type == nt_custom)
 				{
-					((CNodeCustom*)pNode)->SetSize( Size );
+					static_cast<CNodeCustom*>(pNode)->SetSize( Size );
 				}
 				else if (Type == nt_text)
 				{
-					((CNodeText*)pNode)->SetSize( Size );
+					static_cast<CNodeText*>(pNode)->SetSize( Size );
 				}
 				else if (Type == nt_unicode)
 				{
-					((CNodeText*)pNode)->SetSize( Size );
+					static_cast<CNodeText*>(pNode)->SetSize( Size );
 				}
 				else if (Type == nt_vtable)
 				{
-					XMLElement* pXmlVTableElement = pXmlClassElement->FirstChildElement( );
-					while (pXmlVTableElement)
+					XMLElement* pXmlVTableFunctionPtrElement = pXmlClassElement->FirstChildElement( );
+					while (pXmlVTableFunctionPtrElement)
 					{
+						CNodeVTable* pVMTNode = static_cast<CNodeVTable*>( pNode );
+						pVMTNode->Initialize( GetMainFrame( ) );
 						CNodeFunctionPtr* pFunctionPtr = new CNodeFunctionPtr;
-						pFunctionPtr->SetName( _CA2W( pXmlVTableElement->Attribute( "Name" ) ) );
-						pFunctionPtr->SetComment( _CA2W( pXmlVTableElement->Attribute( "Comment" ) ) );
-						pFunctionPtr->SetHidden( atoi( pXmlVTableElement->Attribute( "bHidden" ) ) > 0 ? true : false );
-						pFunctionPtr->SetParent( pNode );
-						pNode->AddNode( pFunctionPtr );
+						pFunctionPtr->SetName( _CA2W( pXmlVTableFunctionPtrElement->Attribute( "Name" ) ) );
+						pFunctionPtr->SetComment( _CA2W( pXmlVTableFunctionPtrElement->Attribute( "Comment" ) ) );
+						pFunctionPtr->SetHidden( atoi( pXmlVTableFunctionPtrElement->Attribute( "bHidden" ) ) > 0 ? true : false );
+						pFunctionPtr->SetParent( pVMTNode );
+						pVMTNode->AddNode( pFunctionPtr );
 
-						XMLElement* pXmlCodeElement = pXmlVTableElement->FirstChildElement( );
+						XMLElement* pXmlCodeElement = pXmlVTableFunctionPtrElement->FirstChildElement( );
 						while (pXmlCodeElement)
 						{
 							CStringA strAssembly = pXmlCodeElement->Attribute( "Assembly" );
@@ -1102,7 +1149,7 @@ void CReClass2016App::OnFileOpen( )
 							pXmlCodeElement = pXmlCodeElement->NextSiblingElement( );
 						}
 
-						pXmlVTableElement = pXmlVTableElement->NextSiblingElement( );
+						pXmlVTableFunctionPtrElement = pXmlVTableFunctionPtrElement->NextSiblingElement( );
 					}
 				}
 				else if (Type == nt_array)
@@ -1127,10 +1174,29 @@ void CReClass2016App::OnFileOpen( )
 						{
 							links.push_back( Link( Name, pNode ) );
 						}
-						//Handle other type of arrays....
+						// TODO: Handle other type of arrays....
 					}
-				}
-				else if (Type == nt_pointer)
+				} else if ( Type == nt_ptrarray )
+				{
+					CNodePtrArray* pArray = (CNodePtrArray*) pNode;
+					pArray->Count() = (DWORD) atoi( pXmlClassElement->Attribute( "Count" ) );
+
+					XMLElement* pXmlArrayElement = pXmlClassElement->FirstChildElement( );
+					if ( pXmlArrayElement )
+					{
+						CString Name = _CA2W( pXmlArrayElement->Attribute( "Name" ) );
+						CString Comment = _CA2W( pXmlArrayElement->Attribute( "Comment" ) );
+						int ArrayType = nt_none;
+						int ArraySize = 0;
+
+						pXmlArrayElement->QueryIntAttribute( "Type", &ArrayType );
+						pXmlClassElement->QueryIntAttribute( "Size", &ArraySize );
+
+						if ( ArrayType == nt_class ) {
+							links.push_back( Link( Name, pNode ) );
+						}
+					}
+				}else if (Type == nt_pointer)
 				{
 					CString PointerStr = _CA2W( pXmlClassElement->Attribute( "Pointer" ) );
 					links.push_back( Link( PointerStr, pNode ) );
@@ -1170,6 +1236,10 @@ void CReClass2016App::OnFileOpen( )
 				{
 					static_cast<CNodeArray*>(it->second)->SetClass( m_Classes[i] );
 				}
+				if ( Type == nt_ptrarray )
+				{
+					static_cast<CNodePtrArray*>(it->second)->SetClass( m_Classes[i] );
+				}
 			}
 		}
 	}
@@ -1177,7 +1247,7 @@ void CReClass2016App::OnFileOpen( )
 	CalcAllOffsets( );
 }
 
-void CReClass2016App::OnButtonGenerate( )
+void CReClassExApp::OnButtonGenerate( )
 {
 	PrintOut( _T( "OnButtonGenerate() called" ) );
 
@@ -1389,6 +1459,12 @@ void CReClass2016App::OnButtonGenerate( )
 				var.push_back( t );
 			}
 
+			if ( Type == nt_ptrarray )
+			{
+				CNodePtrArray* pArray = (CNodePtrArray*) pNode;
+				t.Format( _T( "\t%s* %s[%i]; //0x%0.4X %s\r\n" ), pArray->GetClass( )->GetName( ), pArray->GetName( ), pArray->Count( ), pArray->GetOffset( ), pArray->GetComment( ) );
+				var.push_back( t );
+			}
 		}
 
 		if (fill > 0)
@@ -1462,18 +1538,18 @@ void CReClass2016App::OnButtonGenerate( )
 	}
 }
 
-void CReClass2016App::OnButtonPlugins( )
+void CReClassExApp::OnButtonPlugins( )
 {
 	CDialogPlugins plugin_dlg;
 	plugin_dlg.DoModal( );
 }
 
-void CReClass2016App::OnUpdateButtonPlugins( CCmdUI * pCmdUI )
+void CReClassExApp::OnUpdateButtonPlugins( CCmdUI * pCmdUI )
 {
 	pCmdUI->Enable( !g_LoadedPlugins.empty( ) );
 }
 
-void CReClass2016App::OnOpenPDB( )
+void CReClassExApp::OnOpenPDB( )
 {
 	CString strConcatProcessName = g_ProcessName;
 	if (strConcatProcessName.ReverseFind( '.' ) != -1)
@@ -1486,16 +1562,23 @@ void CReClass2016App::OnOpenPDB( )
 	m_pSymbolLoader->LoadSymbolsForPdb( fileDlg.GetPathName( ) );
 }
 
-void CReClass2016App::OnUpdateOpenPDB( CCmdUI *pCmdUI )
+void CReClassExApp::OnUpdateOpenPDB( CCmdUI *pCmdUI )
 {
 	pCmdUI->Enable( (g_ProcessID != NULL) );
 }
 
-void CReClass2016App::DeleteClass( CNodeClass* pClass )
+void CReClassExApp::DeleteClass( CNodeClass* pClass )
 {
 	PrintOut( _T( "DeleteClass(\"%s\") called" ), pClass->GetName( ).GetString( ) );
 
+	if (pClass->pChildWindow != NULL)
+	{
+		pClass->pChildWindow->SendMessage( WM_CLOSE, 0, 0 );
+		pClass->pChildWindow = NULL;
+	}
+
 	CNodeBase* pNode = IsNodeRef( pClass );
+	
 	if (pNode)
 	{
 		PrintOut( _T( "Class still has a reference in %s.%s" ), pNode->GetParent( )->GetName( ).GetString( ), pNode->GetName( ).GetString( ) );
@@ -1515,7 +1598,7 @@ void CReClass2016App::DeleteClass( CNodeClass* pClass )
 	}
 }
 
-CNodeBase* CReClass2016App::IsNodeRef( CNodeBase* pTestNode )
+CNodeBase* CReClassExApp::IsNodeRef( CNodeBase* pTestNode )
 {
 	for (UINT c = 0; c < m_Classes.size( ); c++)
 	{
@@ -1550,7 +1633,7 @@ CNodeBase* CReClass2016App::IsNodeRef( CNodeBase* pTestNode )
 	return NULL;
 }
 
-void CReClass2016App::OnButtonClean( )
+void CReClassExApp::OnButtonClean( )
 {
 	CMDIFrameWnd* pFrame = STATIC_DOWNCAST( CMDIFrameWnd, m_pMainWnd );
 	CMDIChildWnd* wnd = pFrame->MDIGetActive( );
@@ -1598,7 +1681,7 @@ void CReClass2016App::OnButtonClean( )
 	MessageBox( GetMainWnd( )->GetSafeHwnd( ), msg.GetString( ), _T( "Cleaner" ), MB_OK );
 }
 
-void CReClass2016App::OnUpdateButtonClean( CCmdUI *pCmdUI )
+void CReClassExApp::OnUpdateButtonClean( CCmdUI *pCmdUI )
 {
 	pCmdUI->Enable( (g_ReClassApp.m_Classes.size( ) > 0) );
 }

@@ -57,6 +57,7 @@ bool g_bFloat = true;
 bool g_bInt = true;
 bool g_bString = true;
 bool g_bPointers = true;
+bool g_bUnsignedHex = true;
 
 bool g_bTop = true;
 bool g_bClassBrowser = true;
@@ -129,7 +130,7 @@ CStringA ReadMemoryStringA( ULONG_PTR address, SIZE_T max )
 	{
 		for (int i = 0; i < bytesRead; i++)
 		{
-			if (!(isprint( buffer[i] )) && buffer[i] != '\0')
+			if (!(buffer[i] > 0x1F && buffer[i] < 0xFF && buffer[i] != 0x7F) && buffer[i] != '\0')
 				buffer[i] = '.';
 		}
 		buffer[bytesRead] = '\0';
@@ -140,7 +141,7 @@ CStringA ReadMemoryStringA( ULONG_PTR address, SIZE_T max )
 		#ifdef _DEBUG
 		PrintOut( _T( "[ReadMemoryString]: Failed to read memory, GetLastError() = %s" ), Utils::GetLastErrorString( ).GetString( ) );
 		#endif
-		return CStringA( ".." );
+		return CStringA( "...." );
 	}
 }
 
@@ -148,14 +149,14 @@ CStringW ReadMemoryStringW( ULONG_PTR address, SIZE_T max )
 {
 	SIZE_T bytesRead = 0;
 	auto buffer = std::make_unique<wchar_t[]>( max + 1 );
-	
+
 	if (ReClassReadMemory( (PVOID)address, (LPVOID)buffer.get( ), max * sizeof( wchar_t ), &bytesRead ) != 0)
 	{
 		bytesRead /= sizeof( wchar_t );
 
 		for (int i = 0; i < bytesRead; i++)
 		{
-			if (!(iswprint( buffer[i] )) && buffer[i] != '\0')
+			if (!(buffer[i] > 0x1F && buffer[i] < 0xFF && buffer[i] != 0x7F) && buffer[i] != '\0')
 				buffer[i] = '.';
 		}
 		buffer[bytesRead] = '\0';
@@ -945,9 +946,9 @@ ULONG_PTR ConvertStrToAddress( CString str )
 			{
 				CString ModName = g_MemMapModules[i].Name;
 				ModName.MakeLower( );
-				if (StrStr( ModName, a ) != NULL)
+				if ( ModName.CompareNoCase( a ) == 0 )
 				{
-					curadd = g_MemMapModules[i].Start;
+					curadd = g_MemMapModules[ i ].Start;
 					bMod = true;
 					break;
 				}

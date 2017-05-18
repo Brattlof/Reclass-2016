@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "CChildFrame.h"
-#include "CChildView.h"
+#include "CClassFrame.h"
+#include "CClassView.h"
 #include "DialogEdit.h"
 
 #include <algorithm>
@@ -11,17 +11,17 @@
 #endif
 
 // CChildView
-CChildView::CChildView( ) : 
+CClassView::CClassView( ) :
 	m_pClass( NULL ),
 	m_bTracking( FALSE )
 {
 }
 
-CChildView::~CChildView( )
+CClassView::~CClassView( )
 {
 }
 
-BEGIN_MESSAGE_MAP( CChildView, CWnd )
+BEGIN_MESSAGE_MAP( CClassView, CWnd )
 	ON_WM_PAINT( )
 	ON_WM_KEYDOWN( )
 	ON_WM_LBUTTONDBLCLK( )
@@ -30,121 +30,123 @@ BEGIN_MESSAGE_MAP( CChildView, CWnd )
 	ON_WM_RBUTTONDOWN( )
 	ON_WM_SIZE( )
 	ON_WM_VSCROLL( )
-	ON_WM_HSCROLL()
+	ON_WM_HSCROLL( )
 	ON_WM_ERASEBKGND( )
 	ON_WM_MOUSEWHEEL( )
 	ON_WM_MOUSEHOVER( )
 	ON_WM_MOUSEMOVE( )
 	ON_WM_TIMER( )
 
-	ON_COMMAND( ID_ADD_ADD4, &CChildView::OnAddAdd4 )
-	ON_COMMAND( ID_ADD_ADD8, &CChildView::OnAddAdd8 )
-	ON_COMMAND( ID_ADD_ADD64, &CChildView::OnAddAdd64 )
-	ON_COMMAND( ID_ADD_ADD1024, &CChildView::OnAddAdd1024 )
-	ON_COMMAND( ID_ADD_ADD2048, &CChildView::OnAddAdd2048 )
-	ON_COMMAND( ID_TYPE_HEX64, &CChildView::OnTypeHex64 )
-	ON_COMMAND( ID_TYPE_HEX32, &CChildView::OnTypeHex32 )
-	ON_COMMAND( ID_TYPE_INT64, &CChildView::OnTypeInt64 )
-	ON_COMMAND( ID_TYPE_INT32, &CChildView::OnTypeInt32 )
-	ON_COMMAND( ID_TYPE_INT16, &CChildView::OnTypeInt16 )
-	ON_COMMAND( ID_TYPE_INT8, &CChildView::OnTypeInt8 )
-	ON_COMMAND( ID_TYPE_HEX16, &CChildView::OnTypeHex16 )
-	ON_COMMAND( ID_TYPE_HEX8, &CChildView::OnTypeHex8 )
-	ON_COMMAND( ID_TYPE_BITS, &CChildView::OnTypeBits )
-	ON_COMMAND( ID_TYPE_QWORD, &CChildView::OnTypeQword )
-	ON_COMMAND( ID_TYPE_DWORD, &CChildView::OnTypeDword )
-	ON_COMMAND( ID_TYPE_WORD, &CChildView::OnTypeWord )
-	ON_COMMAND( ID_TYPE_BYTE, &CChildView::OnTypeByte )
-	ON_COMMAND( ID_TYPE_VEC2, &CChildView::OnTypeVec2 )
-	ON_COMMAND( ID_TYPE_VEC3, &CChildView::OnTypeVec3 )
-	ON_COMMAND( ID_TYPE_QUAT, &CChildView::OnTypeQuat )
-	ON_COMMAND( ID_TYPE_FLOAT, &CChildView::OnTypeFloat )
-	ON_COMMAND( ID_TYPE_DOUBLE, &CChildView::OnTypeDouble )
-	ON_COMMAND( ID_TYPE_MATRIX, &CChildView::OnTypeMatrix )
-	ON_COMMAND( ID_TYPE_CUSTOM, &CChildView::OnTypeCustom )
-	ON_COMMAND( ID_TYPE_TEXT, &CChildView::OnTypeText )
-	ON_COMMAND( ID_TYPE_PCHAR, &CChildView::OnTypePChar )
-	ON_COMMAND( ID_TYPE_PWCHAR, &CChildView::OnTypePWChar )
-	ON_COMMAND( ID_TYPE_UNICODE, &CChildView::OnTypeUnicode )
-	ON_COMMAND( ID_INSERT_INSERT4, &CChildView::OnInsertInsert4 )
-	ON_COMMAND( ID_INSERT_INSERT8, &CChildView::OnInsertInsert8 )
-	ON_COMMAND( ID_INSERT_INSERT64, &CChildView::OnInsertInsert64 )
-	ON_COMMAND( ID_INSERT_INSERT1024, &CChildView::OnInsertInsert1024 )
-	ON_COMMAND( ID_INSERT_INSERT2048, &CChildView::OnInsertInsert2048 )
-	ON_COMMAND( ID_TYPE_VTABLE, &CChildView::OnTypeVtable )
-	ON_COMMAND( ID_TYPE_FUNCTION, &CChildView::OnTypeFunction )
-	ON_COMMAND( ID_TYPE_FUNCTION_PTR, &CChildView::OnTypeFunctionPtr )
-	ON_COMMAND( ID_TYPE_POINTER, &CChildView::OnTypePointer )
-	ON_COMMAND( ID_TYPE_ARRAY, &CChildView::OnTypeArray )
-	ON_COMMAND( ID_TYPE_CLASS, &CChildView::OnTypeClass )
-	ON_COMMAND( ID_MODIFY_DELETE, &CChildView::OnModifyDelete )
-	ON_COMMAND( ID_MODIFY_SHOW, &CChildView::OnModifyShow )
-	ON_COMMAND( ID_MODIFY_HIDE, &CChildView::OnModifyHide )
+	ON_COMMAND( ID_ADD_ADD4, &CClassView::OnAddAdd4 )
+	ON_COMMAND( ID_ADD_ADD8, &CClassView::OnAddAdd8 )
+	ON_COMMAND( ID_ADD_ADD64, &CClassView::OnAddAdd64 )
+	ON_COMMAND( ID_ADD_ADD1024, &CClassView::OnAddAdd1024 )
+	ON_COMMAND( ID_ADD_ADD2048, &CClassView::OnAddAdd2048 )
+	ON_COMMAND( ID_TYPE_HEX64, &CClassView::OnTypeHex64 )
+	ON_COMMAND( ID_TYPE_HEX32, &CClassView::OnTypeHex32 )
+	ON_COMMAND( ID_TYPE_INT64, &CClassView::OnTypeInt64 )
+	ON_COMMAND( ID_TYPE_INT32, &CClassView::OnTypeInt32 )
+	ON_COMMAND( ID_TYPE_INT16, &CClassView::OnTypeInt16 )
+	ON_COMMAND( ID_TYPE_INT8, &CClassView::OnTypeInt8 )
+	ON_COMMAND( ID_TYPE_HEX16, &CClassView::OnTypeHex16 )
+	ON_COMMAND( ID_TYPE_HEX8, &CClassView::OnTypeHex8 )
+	ON_COMMAND( ID_TYPE_BITS, &CClassView::OnTypeBits )
+	ON_COMMAND( ID_TYPE_QWORD, &CClassView::OnTypeQword )
+	ON_COMMAND( ID_TYPE_DWORD, &CClassView::OnTypeDword )
+	ON_COMMAND( ID_TYPE_WORD, &CClassView::OnTypeWord )
+	ON_COMMAND( ID_TYPE_BYTE, &CClassView::OnTypeByte )
+	ON_COMMAND( ID_TYPE_VEC2, &CClassView::OnTypeVec2 )
+	ON_COMMAND( ID_TYPE_VEC3, &CClassView::OnTypeVec3 )
+	ON_COMMAND( ID_TYPE_QUAT, &CClassView::OnTypeQuat )
+	ON_COMMAND( ID_TYPE_FLOAT, &CClassView::OnTypeFloat )
+	ON_COMMAND( ID_TYPE_DOUBLE, &CClassView::OnTypeDouble )
+	ON_COMMAND( ID_TYPE_MATRIX, &CClassView::OnTypeMatrix )
+	ON_COMMAND( ID_TYPE_CUSTOM, &CClassView::OnTypeCustom )
+	ON_COMMAND( ID_TYPE_TEXT, &CClassView::OnTypeText )
+	ON_COMMAND( ID_TYPE_PCHAR, &CClassView::OnTypePChar )
+	ON_COMMAND( ID_TYPE_PWCHAR, &CClassView::OnTypePWChar )
+	ON_COMMAND( ID_TYPE_UNICODE, &CClassView::OnTypeUnicode )
+	ON_COMMAND( ID_INSERT_INSERT4, &CClassView::OnInsertInsert4 )
+	ON_COMMAND( ID_INSERT_INSERT8, &CClassView::OnInsertInsert8 )
+	ON_COMMAND( ID_INSERT_INSERT64, &CClassView::OnInsertInsert64 )
+	ON_COMMAND( ID_INSERT_INSERT1024, &CClassView::OnInsertInsert1024 )
+	ON_COMMAND( ID_INSERT_INSERT2048, &CClassView::OnInsertInsert2048 )
+	ON_COMMAND( ID_TYPE_VTABLE, &CClassView::OnTypeVtable )
+	ON_COMMAND( ID_TYPE_FUNCTION, &CClassView::OnTypeFunction )
+	ON_COMMAND( ID_TYPE_FUNCTION_PTR, &CClassView::OnTypeFunctionPtr )
+	ON_COMMAND( ID_TYPE_POINTER, &CClassView::OnTypePointer )
+	ON_COMMAND( ID_TYPE_ARRAY, &CClassView::OnTypeArray )
+	ON_COMMAND( ID_TYPE_PTRARRAY, &CClassView::OnTypePtrArray )
+	ON_COMMAND( ID_TYPE_CLASS, &CClassView::OnTypeClass )
+	ON_COMMAND( ID_MODIFY_DELETE, &CClassView::OnModifyDelete )
+	ON_COMMAND( ID_MODIFY_SHOW, &CClassView::OnModifyShow )
+	ON_COMMAND( ID_MODIFY_HIDE, &CClassView::OnModifyHide )
 
-	ON_UPDATE_COMMAND_UI( ID_ADD_ADD4, &CChildView::OnUpdateAddAdd4 )
-	ON_UPDATE_COMMAND_UI( ID_ADD_ADD8, &CChildView::OnUpdateAddAdd8 )
-	ON_UPDATE_COMMAND_UI( ID_ADD_ADD64, &CChildView::OnUpdateAddAdd64 )
-	ON_UPDATE_COMMAND_UI( ID_ADD_ADD1024, &CChildView::OnUpdateAddAdd1024 )
-	ON_UPDATE_COMMAND_UI( ID_ADD_ADD2048, &CChildView::OnUpdateAddAdd2048 )
-	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT4, &CChildView::OnUpdateInsertInsert4 )
-	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT8, &CChildView::OnUpdateInsertInsert8 )
-	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT64, &CChildView::OnUpdateInsertInsert64 )
-	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT1024, &CChildView::OnUpdateInsertInsert1024 )
-	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT2048, &CChildView::OnUpdateInsertInsert2048 )
-	ON_UPDATE_COMMAND_UI( ID_MODIFY_DELETE, &CChildView::OnUpdateModifyDelete )
-	ON_UPDATE_COMMAND_UI( ID_MODIFY_SHOW, &CChildView::OnUpdateModifyShow )
-	ON_UPDATE_COMMAND_UI( ID_MODIFY_HIDE, &CChildView::OnUpdateModifyHide )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX64, &CChildView::OnUpdateTypeHex64 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX32, &CChildView::OnUpdateTypeHex32 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX16, &CChildView::OnUpdateTypeHex16 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX8, &CChildView::OnUpdateTypeHex8 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_BITS, &CChildView::OnUpdateTypeBits )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_INT64, &CChildView::OnUpdateTypeInt64 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_INT32, &CChildView::OnUpdateTypeInt32 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_INT16, &CChildView::OnUpdateTypeInt16 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_INT8, &CChildView::OnUpdateTypeInt8 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_QWORD, &CChildView::OnUpdateTypeQword )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_DWORD, &CChildView::OnUpdateTypeDword )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_WORD, &CChildView::OnUpdateTypeWord )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_BYTE, &CChildView::OnUpdateTypeByte )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_TEXT, &CChildView::OnUpdateTypeText )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_PCHAR, &CChildView::OnUpdateTypePChar )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_PWCHAR, &CChildView::OnUpdateTypePWChar )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_UNICODE, &CChildView::OnUpdateTypeUnicode )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_DOUBLE, &CChildView::OnUpdateTypeDouble )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_FLOAT, &CChildView::OnUpdateTypeFloat )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_CUSTOM, &CChildView::OnUpdateTypeCustom )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_VEC2, &CChildView::OnUpdateTypeVec2 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_VEC3, &CChildView::OnUpdateTypeVec3 )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_QUAT, &CChildView::OnUpdateTypeQuat )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_MATRIX, &CChildView::OnUpdateTypeMatrix )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_ARRAY, &CChildView::OnUpdateTypeArray )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_CLASS, &CChildView::OnUpdateTypeClass )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_VTABLE, &CChildView::OnUpdateTypeVtable )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_FUNCTION, &CChildView::OnUpdateTypeFunction )
-	ON_UPDATE_COMMAND_UI( ID_TYPE_POINTER, &CChildView::OnUpdateTypePointer )
+	ON_UPDATE_COMMAND_UI( ID_ADD_ADD4, &CClassView::OnUpdateAddAdd4 )
+	ON_UPDATE_COMMAND_UI( ID_ADD_ADD8, &CClassView::OnUpdateAddAdd8 )
+	ON_UPDATE_COMMAND_UI( ID_ADD_ADD64, &CClassView::OnUpdateAddAdd64 )
+	ON_UPDATE_COMMAND_UI( ID_ADD_ADD1024, &CClassView::OnUpdateAddAdd1024 )
+	ON_UPDATE_COMMAND_UI( ID_ADD_ADD2048, &CClassView::OnUpdateAddAdd2048 )
+	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT4, &CClassView::OnUpdateInsertInsert4 )
+	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT8, &CClassView::OnUpdateInsertInsert8 )
+	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT64, &CClassView::OnUpdateInsertInsert64 )
+	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT1024, &CClassView::OnUpdateInsertInsert1024 )
+	ON_UPDATE_COMMAND_UI( ID_INSERT_INSERT2048, &CClassView::OnUpdateInsertInsert2048 )
+	ON_UPDATE_COMMAND_UI( ID_MODIFY_DELETE, &CClassView::OnUpdateModifyDelete )
+	ON_UPDATE_COMMAND_UI( ID_MODIFY_SHOW, &CClassView::OnUpdateModifyShow )
+	ON_UPDATE_COMMAND_UI( ID_MODIFY_HIDE, &CClassView::OnUpdateModifyHide )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX64, &CClassView::OnUpdateTypeHex64 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX32, &CClassView::OnUpdateTypeHex32 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX16, &CClassView::OnUpdateTypeHex16 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_HEX8, &CClassView::OnUpdateTypeHex8 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_BITS, &CClassView::OnUpdateTypeBits )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_INT64, &CClassView::OnUpdateTypeInt64 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_INT32, &CClassView::OnUpdateTypeInt32 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_INT16, &CClassView::OnUpdateTypeInt16 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_INT8, &CClassView::OnUpdateTypeInt8 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_QWORD, &CClassView::OnUpdateTypeQword )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_DWORD, &CClassView::OnUpdateTypeDword )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_WORD, &CClassView::OnUpdateTypeWord )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_BYTE, &CClassView::OnUpdateTypeByte )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_TEXT, &CClassView::OnUpdateTypeText )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_PCHAR, &CClassView::OnUpdateTypePChar )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_PWCHAR, &CClassView::OnUpdateTypePWChar )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_UNICODE, &CClassView::OnUpdateTypeUnicode )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_DOUBLE, &CClassView::OnUpdateTypeDouble )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_FLOAT, &CClassView::OnUpdateTypeFloat )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_CUSTOM, &CClassView::OnUpdateTypeCustom )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_VEC2, &CClassView::OnUpdateTypeVec2 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_VEC3, &CClassView::OnUpdateTypeVec3 )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_QUAT, &CClassView::OnUpdateTypeQuat )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_MATRIX, &CClassView::OnUpdateTypeMatrix )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_ARRAY, &CClassView::OnUpdateTypeArray )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_PTRARRAY, &CClassView::OnUpdateTypePtrArray )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_CLASS, &CClassView::OnUpdateTypeClass )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_VTABLE, &CClassView::OnUpdateTypeVtable )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_FUNCTION, &CClassView::OnUpdateTypeFunction )
+	ON_UPDATE_COMMAND_UI( ID_TYPE_POINTER, &CClassView::OnUpdateTypePointer )
 
-	ON_COMMAND( ID_BUTTON_EDITCODE, &CChildView::OnButtonEditcode )
-	ON_COMMAND( ID_EDIT_COPY, &CChildView::OnEditCopy )
-	ON_COMMAND( ID_EDIT_PASTE, &CChildView::OnEditPaste )
+	ON_COMMAND( ID_BUTTON_EDITCODE, &CClassView::OnButtonEditcode )
+	ON_COMMAND( ID_EDIT_COPY, &CClassView::OnEditCopy )
+	ON_COMMAND( ID_EDIT_PASTE, &CClassView::OnEditPaste )
 
 	ON_WM_MOUSELEAVE( )
 
-	ON_COMMAND( ID_BUTTON_ZERO, &CChildView::OnButtonZero )
-	ON_COMMAND( ID_BUTTON_ONE, &CChildView::OnButtonOne )
-	ON_COMMAND( ID_BUTTON_RANDOM, &CChildView::OnButtonRandom )
-	ON_COMMAND( ID_BUTTON_SWAP, &CChildView::OnButtonSwap )
+	ON_COMMAND( ID_BUTTON_ZERO, &CClassView::OnButtonZero )
+	ON_COMMAND( ID_BUTTON_ONE, &CClassView::OnButtonOne )
+	ON_COMMAND( ID_BUTTON_RANDOM, &CClassView::OnButtonRandom )
+	ON_COMMAND( ID_BUTTON_SWAP, &CClassView::OnButtonSwap )
 
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_ZERO, &CChildView::OnUpdateButtonZero )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_ONE, &CChildView::OnUpdateButtonOne )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_RANDOM, &CChildView::OnUpdateButtonRandom )
-	ON_UPDATE_COMMAND_UI( ID_BUTTON_SWAP, &CChildView::OnUpdateButtonSwap )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_ZERO, &CClassView::OnUpdateButtonZero )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_ONE, &CClassView::OnUpdateButtonOne )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_RANDOM, &CClassView::OnUpdateButtonRandom )
+	ON_UPDATE_COMMAND_UI( ID_BUTTON_SWAP, &CClassView::OnUpdateButtonSwap )
 END_MESSAGE_MAP( )
 
 #define SB_WIDTH 14
 
 // CChildView message handlers
-BOOL CChildView::PreCreateWindow( CREATESTRUCT& cs )
+BOOL CClassView::PreCreateWindow( CREATESTRUCT& cs )
 {
 	//cs.cy += g_FontHeight;
 	if (!CWnd::PreCreateWindow( cs ))
@@ -155,15 +157,18 @@ BOOL CChildView::PreCreateWindow( CREATESTRUCT& cs )
 	return TRUE;
 }
 
-int CChildView::OnCreate( LPCREATESTRUCT lpCreateStruct )
+int CClassView::OnCreate( LPCREATESTRUCT lpCreateStruct )
 {
 	lpCreateStruct->cy += g_FontHeight;
+	
 	if (CWnd::OnCreate( lpCreateStruct ) == -1)
 		return -1;
 
 	CRect rect( 0, 0, 100, 100 );
-	CRect hrect(5, 5, 100, 30);
+	CRect hrect( 5, 5, 100, 30 );
+	
 	//m_Edit.CreateEx(WS_EX_WINDOWEDGE, _T("EDIT"),  _T(" "), WS_CHILD | WS_TABSTOP, rect, this, 1);
+	
 	m_Edit.Create( WS_CHILD | WS_TABSTOP, rect, this, 1 );
 	m_Edit.ShowWindow( SW_HIDE );
 	m_Edit.SetFont( &g_ViewFont );
@@ -172,9 +177,9 @@ int CChildView::OnCreate( LPCREATESTRUCT lpCreateStruct )
 	m_Scroll.EnableScrollBar( ESB_ENABLE_BOTH );
 	m_Scroll.ShowScrollBar( );
 
-	m_HScroll.Create(SBS_HORZ, hrect, this, 0);
-	m_HScroll.EnableScrollBar(ESB_ENABLE_BOTH);
-	m_HScroll.ShowScrollBar();
+	m_HScroll.Create( SBS_HORZ, hrect, this, 0 );
+	m_HScroll.EnableScrollBar( ESB_ENABLE_BOTH );
+	m_HScroll.ShowScrollBar( );
 
 	m_ToolTip.Create( ES_MULTILINE | WS_BORDER, rect, this, 1 );
 	m_ToolTip.SetFont( &g_ViewFont );
@@ -185,14 +190,14 @@ int CChildView::OnCreate( LPCREATESTRUCT lpCreateStruct )
 	return 0;
 }
 
-void CChildView::OnTimer( UINT_PTR nIDEvent )
+void CClassView::OnTimer( UINT_PTR nIDEvent )
 {
 	if (nIDEvent == 1)
-		Invalidate( FALSE );
+		CWnd::Invalidate( FALSE );
 	CWnd::OnTimer( nIDEvent );
 }
 
-void CChildView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
+void CClassView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 {
 	if (nChar == VK_DOWN)
 	{
@@ -205,7 +210,7 @@ void CChildView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 				CNodeBase* pFindClassNode = (CNodeBase*)pPtrNode->GetClass( );
 
 				auto found = std::find_if( HotSpots.begin( ), HotSpots.end( ),
-										   [pFindClassNode] ( const HotSpot hs ) { return (hs.object == pFindClassNode); } );
+					[pFindClassNode] ( const HotSpot hs ) { return (hs.object == pFindClassNode); } );
 				if (found != HotSpots.end( ))
 				{
 					ClearSelection( );
@@ -220,7 +225,7 @@ void CChildView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 				CNodeBase* pFindNode = (CNodeBase*)pClassNode->GetNode( 0 );
 
 				auto found = std::find_if( HotSpots.begin( ), HotSpots.end( ),
-										   [pFindNode] ( const HotSpot hs ) { return (hs.object == pFindNode); } );
+					[pFindNode] ( const HotSpot hs ) { return (hs.object == pFindNode); } );
 				if (found != HotSpots.end( ))
 				{
 					ClearSelection( );
@@ -236,7 +241,7 @@ void CChildView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 					ULONG_PTR findAddress = firstSelected->Address + firstSelected->object->GetMemorySize( );
 
 					auto found = std::find_if( HotSpots.begin( ), HotSpots.end( ),
-											   [findAddress] ( const HotSpot hs ) { return (hs.Address == findAddress); } );
+						[findAddress] ( const HotSpot hs ) { return (hs.Address == findAddress); } );
 					if (found != HotSpots.end( ))
 					{
 						if (found->Address == HotSpots.back( ).Address)
@@ -244,7 +249,7 @@ void CChildView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 							if (m_Scroll.IsWindowEnabled( ))
 								m_Scroll.SetScrollPos( m_Scroll.GetScrollPos( ) + 1 );
 						}
-						
+
 						ClearSelection( );
 						found->object->Select( );
 						Selected.push_back( *found );
@@ -284,7 +289,7 @@ void CChildView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 			ULONG_PTR findAddress = firstSelected->Address;
 
 			auto found = std::find_if( HotSpots.begin( ), HotSpots.end( ),
-									   [findAddress] ( const HotSpot hs ) { return (hs.Address == findAddress); } );
+				[findAddress] ( const HotSpot hs ) { return (hs.Address == findAddress); } );
 			if (found != HotSpots.end( ))
 			{
 				ClearSelection( );
@@ -321,7 +326,7 @@ void CChildView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 	CWnd::OnKeyDown( nChar, nRepCnt, nFlags );
 }
 
-void CChildView::OnLButtonDblClk( UINT nFlags, CPoint point )
+void CClassView::OnLButtonDblClk( UINT nFlags, CPoint point )
 {
 	CWnd::OnLButtonDblClk( nFlags, point );
 
@@ -362,29 +367,29 @@ TCHAR GetBeginChar( CString name )
 	return '_';
 }
 
-bool SortBeginnings( std::pair<TCHAR, std::vector<std::pair<CString, UINT>>> i, std::pair<TCHAR, std::vector<std::pair<CString, UINT>>> j )
+bool SortBeginnings( std::pair<TCHAR, std::vector<std::pair<CString, size_t>>> i, std::pair<TCHAR, std::vector<std::pair<CString, size_t>>> j )
 {
 	return (i.first < j.first);
 }
 
-bool SortClassesByName( std::pair<CString, UINT> i, std::pair<CString, UINT> j )
+bool SortClassesByName( std::pair<CString, size_t> i, std::pair<CString, size_t> j )
 {
 	return (GetBeginChar( i.first ) < GetBeginChar( j.first ));
 }
 
-std::vector<std::pair<TCHAR, std::vector<std::pair<CString, UINT>>>> ExplodeByFirstChar( std::vector<std::pair<CString, UINT>> classRefs )
+std::vector<std::pair<TCHAR, std::vector<std::pair<CString, size_t>>>> ExplodeByFirstChar( std::vector<std::pair<CString, size_t>> classRefs )
 {
-	std::vector<std::pair<TCHAR, std::vector<std::pair<CString, UINT>>>> out;
+	std::vector<std::pair<TCHAR, std::vector<std::pair<CString, size_t>>>> out;
 
 	for (int i = 0; i < classRefs.size( ); i++)
 	{
-		std::pair<CString, UINT>* classRef = &classRefs[i];
+		std::pair<CString, size_t>* classRef = &classRefs[i];
 
 		// determine begin char
 		TCHAR begin = GetBeginChar( classRef->first );
 
 		// find if already in out
-		std::vector<std::pair<CString, UINT>>* outByBegin = NULL;
+		std::vector<std::pair<CString, size_t>>* outByBegin = NULL;
 		for (int j = 0; j < out.size( ); j++)
 		{
 			if (out[j].first == begin)
@@ -397,7 +402,7 @@ std::vector<std::pair<TCHAR, std::vector<std::pair<CString, UINT>>>> ExplodeByFi
 		// create if missing
 		if (outByBegin == NULL)
 		{
-			out.push_back( std::pair<TCHAR, std::vector<std::pair<CString, UINT>>>( begin, std::vector<std::pair<CString, UINT>>( ) ) );
+			out.push_back( std::pair<TCHAR, std::vector<std::pair<CString, size_t>>>( begin, std::vector<std::pair<CString, size_t>>( ) ) );
 			outByBegin = &out[out.size( ) - 1].second;
 		}
 
@@ -415,7 +420,7 @@ std::vector<std::pair<TCHAR, std::vector<std::pair<CString, UINT>>>> ExplodeByFi
 	return out;
 }
 
-void CChildView::OnLButtonDown( UINT nFlags, CPoint point )
+void CClassView::OnLButtonDown( UINT nFlags, CPoint point )
 {
 	m_Edit.ShowWindow( SW_HIDE );
 	for (UINT i = 0; i < HotSpots.size( ); i++)
@@ -536,7 +541,7 @@ void CChildView::OnLButtonDown( UINT nFlags, CPoint point )
 				CImage img;
 				CBitmap bmp;
 
-				std::vector<std::pair<CString, UINT>> classRefs;
+				std::vector<std::pair<CString, size_t>> classRefs;
 
 				CRect pos = { 0 };
 				CNodeBase* pNode = NULL;
@@ -551,17 +556,17 @@ void CChildView::OnLButtonDown( UINT nFlags, CPoint point )
 				menu.CreatePopupMenu( );
 
 				img.LoadFromResource( AfxGetResourceHandle( ), IDB_CLASSBITMAP );
-				
+
 				bmp.Attach( img.Detach( ) );
 
-				for (UINT m = 0; m < g_ReClassApp.m_Classes.size( ); m++)
+				for (size_t m = 0; m < g_ReClassApp.m_Classes.size( ); m++)
 				{
 					if ((HotSpots[i].Type == HS_CHANGE_X) && (pNode->GetParent( ) == g_ReClassApp.m_Classes[m]))
 						continue;
-					classRefs.push_back( std::pair<CString, UINT>( g_ReClassApp.m_Classes[m]->GetName( ), m ) );
+					classRefs.push_back( std::pair<CString, size_t>( g_ReClassApp.m_Classes[m]->GetName( ), m ) );
 				}
 
-				std::vector<std::pair<wchar_t, std::vector<std::pair<CString, UINT>>>> out = ExplodeByFirstChar( classRefs );
+				std::vector<std::pair<wchar_t, std::vector<std::pair<CString, size_t>>>> out = ExplodeByFirstChar( classRefs );
 
 				for (UINT i = 0; i < out.size( ); i++)
 				{
@@ -589,7 +594,7 @@ void CChildView::OnLButtonDown( UINT nFlags, CPoint point )
 	CWnd::OnLButtonDown( nFlags, point );
 }
 
-void CChildView::OnRButtonDown( UINT nFlags, CPoint point )
+void CClassView::OnRButtonDown( UINT nFlags, CPoint point )
 {
 	m_Edit.ShowWindow( SW_HIDE );
 
@@ -658,7 +663,7 @@ void CChildView::OnRButtonDown( UINT nFlags, CPoint point )
 	CWnd::OnRButtonDown( nFlags, point );
 }
 
-void CChildView::OnPaint( )
+void CClassView::OnPaint( )
 {
 	CPaintDC paintDC( this ); // device context for painting
 	CMemDC memDC( paintDC, this );
@@ -692,13 +697,14 @@ void CChildView::OnPaint( )
 		View.HotSpots = &HotSpots;
 		View.bMultiSelected = (Selected.size( ) > 1) ? true : false;
 
-		if (m_Scroll.IsWindowVisible()) {
+		if (m_Scroll.IsWindowVisible( ))
+		{
 			View.client->right -= SB_WIDTH;
 			View.client->bottom -= SB_WIDTH;
 		}
 
 		int ypos = (m_Scroll.GetScrollPos( ) * g_FontHeight);
-		int xpos = m_HScroll.GetScrollPos();
+		int xpos = m_HScroll.GetScrollPos( );
 		NodeSize DrawMax = m_pClass->Draw( View, 0 - xpos, -ypos );
 		DrawMax.y += ypos + g_FontHeight;
 		// Dirty hack, fix Draw methods
@@ -706,10 +712,10 @@ void CChildView::OnPaint( )
 
 		if (m_pClass->RequestPosition != -1)
 		{
-			if ((m_pClass->RequestPosition >= 0) && (m_pClass->RequestPosition < (int)g_ReClassApp.m_Classes.size( )))
+			if ((m_pClass->RequestPosition >= 0) && (m_pClass->RequestPosition < g_ReClassApp.m_Classes.size( )))
 			{
-				int idx = -1;
-				for (UINT i = 0; i < g_ReClassApp.m_Classes.size( ); i++)
+				size_t idx = -1;
+				for (size_t i = 0; i < g_ReClassApp.m_Classes.size( ); i++)
 				{
 					CNodeClass* pClass = View.Classes->at( i );
 					if (m_pClass == g_ReClassApp.m_Classes[i])
@@ -730,7 +736,7 @@ void CChildView::OnPaint( )
 			si.nMin = 0;
 			si.nMax = DrawMax.y / g_FontHeight;
 			si.nPage = clientRect.Height( ) / g_FontHeight;
-			m_Scroll.SetScrollInfo( &si );						
+			m_Scroll.SetScrollInfo( &si );
 			m_Scroll.ShowScrollBar( TRUE );
 		}
 		else
@@ -739,24 +745,26 @@ void CChildView::OnPaint( )
 			m_Scroll.ShowScrollBar( FALSE );
 		}
 
-		if (clientRect.Width() < DrawMax.x) {
+		if (clientRect.Width( ) < DrawMax.x)
+		{
 			SCROLLINFO si = { 0 };
-			si.cbSize = sizeof(SCROLLINFO);
+			si.cbSize = sizeof( SCROLLINFO );
 			si.fMask = SIF_PAGE | SIF_RANGE;
 			si.nMin = 0;
 			si.nMax = DrawMax.x;
-			si.nPage = clientRect.Width();
-			m_HScroll.SetScrollInfo(&si);			
-			m_HScroll.ShowScrollBar(TRUE);
+			si.nPage = clientRect.Width( );
+			m_HScroll.SetScrollInfo( &si );
+			m_HScroll.ShowScrollBar( TRUE );
 		}
-		else {
-			m_HScroll.SetScrollPos(0);
-			m_HScroll.ShowScrollBar(FALSE);
+		else
+		{
+			m_HScroll.SetScrollPos( 0 );
+			m_HScroll.ShowScrollBar( FALSE );
 		}
 
 		CMDIFrameWnd* pFrame = STATIC_DOWNCAST( CMDIFrameWnd, AfxGetApp( )->m_pMainWnd );
-		CChildFrame* pChild = STATIC_DOWNCAST( CChildFrame, pFrame->GetActiveFrame( ) );
-		if (pChild->m_ChildView.m_hWnd == m_hWnd)
+		CClassFrame* pChild = STATIC_DOWNCAST( CClassFrame, pFrame->GetActiveFrame( ) );
+		if (pChild->GetChildView( )->m_hWnd == m_hWnd)
 		{
 			pChild->SetWindowText( m_pClass->GetName( ) );
 			pChild->SetTitle( m_pClass->GetName( ) );
@@ -775,18 +783,18 @@ void CChildView::OnPaint( )
 	}
 }
 
-void CChildView::OnSize( UINT nType, int cx, int cy )
+void CClassView::OnSize( UINT nType, int cx, int cy )
 {
 	CRect client;
 	GetClientRect( &client );
 	m_Scroll.SetWindowPos( NULL, client.right - SB_WIDTH, 0, SB_WIDTH, client.Height( ) - SB_WIDTH, SWP_NOZORDER );
-	m_HScroll.SetWindowPos(NULL, client.left, client.bottom - SB_WIDTH, client.Width() - SB_WIDTH, SB_WIDTH, SWP_NOZORDER);
+	m_HScroll.SetWindowPos( NULL, client.left, client.bottom - SB_WIDTH, client.Width( ) - SB_WIDTH, SB_WIDTH, SWP_NOZORDER );
 	m_Edit.ShowWindow( SW_HIDE );
 
 	CWnd::OnSize( nType, cx, cy );
 }
 
-void CChildView::OnVScroll( UINT nSBCode, UINT nPos, CScrollBar* pScrollBar )
+void CClassView::OnVScroll( UINT nSBCode, UINT nPos, CScrollBar* pScrollBar )
 {
 	m_Edit.ShowWindow( SW_HIDE );
 
@@ -804,30 +812,30 @@ void CChildView::OnVScroll( UINT nSBCode, UINT nPos, CScrollBar* pScrollBar )
 	CWnd::OnVScroll( nSBCode, nPos, pScrollBar );
 }
 
-void CChildView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+void CClassView::OnHScroll( UINT nSBCode, UINT nPos, CScrollBar* pScrollBar )
 {
-	m_Edit.ShowWindow(SW_HIDE);
+	m_Edit.ShowWindow( SW_HIDE );
 
 	if (nSBCode == SB_THUMBPOSITION || nSBCode == SB_THUMBTRACK)
 	{
-		pScrollBar->SetScrollPos(nPos);
-		Invalidate();
+		pScrollBar->SetScrollPos( nPos );
+		Invalidate( );
 	}
 	else if (nSBCode == SB_LINELEFT || nSBCode == SB_LINERIGHT)
 	{
-		pScrollBar->SetScrollPos(pScrollBar->GetScrollPos() + ((nSBCode == SB_LINEUP) ? -1 : 1));
-		Invalidate();
+		pScrollBar->SetScrollPos( pScrollBar->GetScrollPos( ) + ((nSBCode == SB_LINEUP) ? -1 : 1) );
+		Invalidate( );
 	}
 
-	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
+	CWnd::OnHScroll( nSBCode, nPos, pScrollBar );
 }
 
-BOOL CChildView::OnEraseBkgnd( CDC* pDC )
+BOOL CClassView::OnEraseBkgnd( CDC* pDC )
 {
 	return TRUE;
 }
 
-BOOL CChildView::OnMouseWheel( UINT nFlags, short zDelta, CPoint pt )
+BOOL CClassView::OnMouseWheel( UINT nFlags, short zDelta, CPoint pt )
 {
 	if (m_Scroll.IsWindowVisible( ))
 	{
@@ -843,7 +851,7 @@ BOOL CChildView::OnMouseWheel( UINT nFlags, short zDelta, CPoint pt )
 	return CWnd::OnMouseWheel( nFlags, zDelta, pt );
 }
 
-void CChildView::OnMouseHover( UINT nFlags, CPoint point )
+void CClassView::OnMouseHover( UINT nFlags, CPoint point )
 {
 	if (Selected.size( ) > 1)
 	{
@@ -872,92 +880,103 @@ void CChildView::OnMouseHover( UINT nFlags, CPoint point )
 					{
 						if (HotSpots[i].object->IsLevelOpen( HotSpots[i].Level ) == FALSE)
 						{
-							
-							ULONG_PTR StartAddress = HotSpots[i].Address;
+							ULONG_PTR StartAddress = 0;
 							UCHAR Code[1024] = { 0xCC }; // set max function size to 1024] bytes
 							UIntPtr EndCode = (UIntPtr)(Code + 1024);
 							int textHeight = 0;
+							int longestLine = 0;
 							CStringA strDisassembly;
 
-							// Read in process bytes
-							if (ReClassReadMemory( (LPVOID)StartAddress, (LPVOID)Code, 1024 ) == TRUE)
+							if (ReClassReadMemory( (LPVOID)HotSpots[i].Address, &StartAddress, sizeof( ULONG_PTR ) ) == TRUE && StartAddress != 0)
 							{
-								DISASM MyDisasm;
-								BOOL Error = FALSE;
-
-								ZeroMemory( &MyDisasm, sizeof( DISASM ) );
-								MyDisasm.EIP = (UIntPtr)Code;
-								MyDisasm.VirtualAddr = (UInt64)StartAddress;
-								#ifdef _WIN64
-								MyDisasm.Archi = 64;
-								#else
-								MyDisasm.Archi = 0;
-								#endif
-								MyDisasm.Options = MasmSyntax | PrefixedNumeral | ShowSegmentRegs;
-
-								// Get assembly lines
-								while (Error == FALSE)
+								// Read in process bytes
+								if (ReClassReadMemory( (LPVOID)StartAddress, (LPVOID)Code, 1024 ) == TRUE)
 								{
-									int disasmLen = 0;
+									DISASM MyDisasm;
+									BOOL Error = FALSE;
 
-									MyDisasm.SecurityBlock = (UInt32)(EndCode - MyDisasm.EIP);
+									ZeroMemory( &MyDisasm, sizeof( DISASM ) );
+									MyDisasm.EIP = (UIntPtr)Code;
+									MyDisasm.VirtualAddr = (UInt64)StartAddress;
+									#ifdef _WIN64
+									MyDisasm.Archi = 64;
+									#else
+									MyDisasm.Archi = 0;
+									#endif
+									MyDisasm.Options = MasmSyntax | PrefixedNumeral | ShowSegmentRegs;
 
-									disasmLen = Disasm( &MyDisasm );
-									if (disasmLen == OUT_OF_BLOCK || disasmLen == UNKNOWN_OPCODE)
+									// Get assembly lines
+									while (Error == FALSE)
 									{
-										Error = TRUE;
-									}
-									else
-									{
-										CHAR szInstruction[256] = { 0 };
-										CHAR szBytes[128] = { 0 };
+										int disasmLen = 0;
 
-										// INT3 instruction usually indicates the end of a function (obviously this is temporary)
-										if (MyDisasm.Instruction.Opcode == 0xCC)
-											break;
+										MyDisasm.SecurityBlock = (UInt32)(EndCode - MyDisasm.EIP);
 
-										// Generate instruction bytes
-										for (int i = 0; i < disasmLen; i++)
+										disasmLen = Disasm( &MyDisasm );
+										if (disasmLen == OUT_OF_BLOCK || disasmLen == UNKNOWN_OPCODE)
 										{
-											sprintf_s( szBytes + (i * 3), 128, "%02X ", *(CHAR*)(MyDisasm.EIP + i) );
+											Error = TRUE;
 										}
+										else
+										{
+											CHAR szInstruction[256] = { 0 };
+											CHAR szBytes[128] = { 0 };
 
-										// Create full instruction string
-										sprintf_s( szInstruction, 256, "%IX %-*s %s\r\n", (ULONG_PTR)MyDisasm.VirtualAddr, 20 /* change this l8r */, szBytes, MyDisasm.CompleteInstr );
-										strDisassembly += szInstruction;
+											// INT3 instruction usually indicates the end of a function
+											if (MyDisasm.Instruction.Opcode == 0xCC)
+												break;
 
-										// Increment the text height
-										textHeight += g_FontHeight;
+											// Generate instruction bytes
+											for (int i = 0; i < disasmLen; i++)
+											{
+												CHAR szByte[8];
+												sprintf_s( szByte, "%02X ", *(UCHAR*)(MyDisasm.EIP + i) );
+												strcat_s( szBytes, szByte );
+											}
 
-										// Increment by instruction length
-										MyDisasm.EIP += disasmLen;
-										MyDisasm.VirtualAddr += disasmLen;
+											// Create full instruction string
+											int len = sprintf_s( szInstruction, 256, "%IX %-*s %s\r\n", (ULONG_PTR)MyDisasm.VirtualAddr, 20 /* change this l8r */, szBytes, MyDisasm.CompleteInstr );
 
-										if (MyDisasm.EIP >= EndCode)
-											break;
+											if (len > longestLine)
+												longestLine = len;
+
+											strDisassembly += szInstruction;
+
+											// Increment the text height
+											textHeight += g_FontHeight;
+
+											// Increment by instruction length
+											MyDisasm.EIP += disasmLen;
+											MyDisasm.VirtualAddr += disasmLen;
+
+											if (MyDisasm.EIP >= EndCode)
+												break;
+										}
 									}
+
 								}
+								else
+								{
+									strDisassembly = "ERROR: Could not read memory";
+									textHeight += g_FontHeight;
+								}
+
+								m_ToolTip.EnableWindow( FALSE );
+								#ifdef UNICODE
+								m_ToolTip.SetWindowText( CA2W( strDisassembly ).m_psz );
+								#else
+								m_ToolTip.SetWindowText( strDisassembly.GetString( ) );
+								#endif
+								
+								m_ToolTip.SetWindowPos( NULL, point.x + 16, point.y + 16, (longestLine + 1) * g_FontWidth, textHeight + g_FontHeight, SWP_NOZORDER );
+
+								m_ToolTip.ShowWindow( SW_SHOW );
 							}
 							else
 							{
 								strDisassembly = "ERROR: Could not read memory";
 								textHeight += g_FontHeight;
 							}
-
-							m_ToolTip.EnableWindow( FALSE );
-							#ifdef UNICODE
-							m_ToolTip.SetWindowText( CA2W( strDisassembly ).m_psz );
-							#else
-							m_ToolTip.SetWindowText( strDisassembly.GetString( ) );
-							#endif
-
-							#ifdef _WIN64
-							m_ToolTip.SetWindowPos( NULL, point.x + 16, point.y + 16, 450, textHeight, SWP_NOZORDER );
-							#else
-							m_ToolTip.SetWindowPos( NULL, point.x + 16, point.y + 16, 450, textHeight, SWP_NOZORDER );
-							#endif
-
-							m_ToolTip.ShowWindow( SW_SHOW );
 						}
 					}
 					else if (nodeType == nt_hex64)
@@ -1010,7 +1029,7 @@ void CChildView::OnMouseHover( UINT nFlags, CPoint point )
 	CWnd::OnMouseHover( nFlags, point );
 }
 
-void CChildView::OnMouseMove( UINT nFlags, CPoint point )
+void CClassView::OnMouseMove( UINT nFlags, CPoint point )
 {
 	if (point != m_HoverPoint)
 		m_ToolTip.ShowWindow( SW_HIDE );
@@ -1028,27 +1047,27 @@ void CChildView::OnMouseMove( UINT nFlags, CPoint point )
 	CWnd::OnMouseMove( nFlags, point );
 }
 
-void CChildView::OnMouseLeave( )
+void CClassView::OnMouseLeave( )
 {
 	m_ToolTip.ShowWindow( SW_HIDE );
 	m_bTracking = FALSE;
 	CWnd::OnMouseLeave( );
 }
 
-UINT CChildView::FindNodeIndex( CNodeBase* pNode )
+UINT CClassView::FindNodeIndex( CNodeBase* pNode )
 {
 	CNodeClass* pClass = NULL;
 	int foundIdx = -1;
 
 	if (!pNode->GetParent( ))
 		return MAX_NODES;
-	
+
 	pClass = (CNodeClass*)pNode->GetParent( );
 	foundIdx = pClass->FindNode( pNode );
 	return (foundIdx != -1) ? foundIdx : MAX_NODES;
 }
 
-CNodeBase* CChildView::FindNodeFromIndex( CNodeBase* currentlySelectedNode, UINT index )
+CNodeBase* CClassView::FindNodeFromIndex( CNodeBase* currentlySelectedNode, UINT index )
 {
 	CNodeBase* pNode = currentlySelectedNode;
 	if (!pNode)
@@ -1061,7 +1080,7 @@ CNodeBase* CChildView::FindNodeFromIndex( CNodeBase* currentlySelectedNode, UINT
 	return pClass->GetNode( index );
 }
 
-void CChildView::ReplaceNode( CNodeClass* pClass, UINT idx, CNodeBase* pNewNode )
+void CClassView::ReplaceNode( CNodeClass* pClass, UINT idx, CNodeBase* pNewNode )
 {
 	if (!pClass || idx == MAX_NODES)
 		return;
@@ -1105,7 +1124,7 @@ void CChildView::ReplaceNode( CNodeClass* pClass, UINT idx, CNodeBase* pNewNode 
 	g_ReClassApp.CalcAllOffsets( );
 }
 
-void CChildView::RemoveNodes( CNodeClass* pClass, UINT idx, DWORD Length )
+void CClassView::RemoveNodes( CNodeClass* pClass, UINT idx, DWORD Length )
 {
 	if (!pClass || idx == MAX_NODES)
 		return;
@@ -1133,7 +1152,7 @@ void CChildView::RemoveNodes( CNodeClass* pClass, UINT idx, DWORD Length )
 	g_ReClassApp.CalcAllOffsets( );
 }
 
-void CChildView::FillNodes( CNodeClass* pClass, UINT idx, DWORD Length )
+void CClassView::FillNodes( CNodeClass* pClass, UINT idx, DWORD Length )
 {
 	if (!pClass || idx >= MAX_NODES)
 		return;
@@ -1202,7 +1221,7 @@ void CChildView::FillNodes( CNodeClass* pClass, UINT idx, DWORD Length )
 	}
 }
 
-void CChildView::ResizeNode( CNodeClass* pClass, UINT idx, DWORD before, DWORD after )
+void CClassView::ResizeNode( CNodeClass* pClass, UINT idx, DWORD before, DWORD after )
 {
 	if (!pClass || idx == MAX_NODES)
 		return;
@@ -1222,7 +1241,7 @@ void CChildView::ResizeNode( CNodeClass* pClass, UINT idx, DWORD before, DWORD a
 	g_ReClassApp.CalcAllOffsets( );
 }
 
-void CChildView::AddBytes( CNodeClass* pClass, DWORD Length )
+void CClassView::AddBytes( CNodeClass* pClass, DWORD Length )
 {
 	if (!pClass)
 		return;
@@ -1232,9 +1251,16 @@ void CChildView::AddBytes( CNodeClass* pClass, DWORD Length )
 	{
 		CNodeBase* pNode = 0;
 		if (pClass->GetType( ) == nt_vtable)
-			pNode = new CNodeFunctionPtr;
+		{
+			CNodeVTable* pVTable = (CNodeVTable*)pClass; // force this cast
+			if (!pVTable->IsInitialized( ))
+				pVTable->Initialize( static_cast<CWnd*>(this) );
+			pNode = new CNodeFunctionPtr( static_cast<CWnd*>(this), pClass->GetOffset( ) + (pClass->NodeCount( ) * sizeof( size_t )) );
+		}
 		else
+		{
 			pNode = new CNodeHex32;
+		}
 		pNode->SetParent( pClass );
 		pClass->AddNode( pNode );
 		g_ReClassApp.CalcAllOffsets( );
@@ -1245,9 +1271,16 @@ void CChildView::AddBytes( CNodeClass* pClass, DWORD Length )
 	{
 		CNodeBase* pNode;
 		if (pClass->GetType( ) == nt_vtable)
-			pNode = new CNodeFunctionPtr;
+		{
+			CNodeVTable* pVTable = (CNodeVTable*)pClass;
+			if (!pVTable->IsInitialized( ))
+				pVTable->Initialize( static_cast<CWnd*>(this) );
+			pNode = new CNodeFunctionPtr( static_cast<CWnd*>(this), pClass->GetOffset( ) + ((pClass->NodeCount( ) + i) * sizeof( size_t )) );
+		}
 		else
+		{
 			pNode = new CNodeHex;
+		}
 
 		pNode->SetParent( pClass );
 		pClass->AddNode( pNode );
@@ -1256,7 +1289,7 @@ void CChildView::AddBytes( CNodeClass* pClass, DWORD Length )
 	g_ReClassApp.CalcAllOffsets( );
 }
 
-void CChildView::InsertBytes( CNodeClass* pClass, UINT idx, DWORD Length )
+void CClassView::InsertBytes( CNodeClass* pClass, UINT idx, DWORD Length )
 {
 	if (!pClass || idx == MAX_NODES)
 		return;
@@ -1266,12 +1299,18 @@ void CChildView::InsertBytes( CNodeClass* pClass, UINT idx, DWORD Length )
 	{
 		CNodeBase* pNode = 0;
 		if (pClass->GetType( ) == nt_vtable)
-			pNode = new CNodeFunctionPtr;
+		{
+			pNode = new CNodeFunctionPtr( this, pClass->GetOffset( ) + (pClass->NodeCount( ) * sizeof( size_t )) );
+		}
 		else
+		{
 			pNode = new CNodeHex32;
+		}
+
 		pNode->SetParent( pClass );
 		pClass->InsertNode( idx, pNode );
 		g_ReClassApp.CalcAllOffsets( );
+
 		return;
 	}
 
@@ -1279,9 +1318,13 @@ void CChildView::InsertBytes( CNodeClass* pClass, UINT idx, DWORD Length )
 	{
 		CNodeBase* pNode;
 		if (pClass->GetType( ) == nt_vtable)
-			pNode = new CNodeFunctionPtr;
+		{
+			pNode = new CNodeFunctionPtr( this, pClass->GetOffset( ) + ((pClass->NodeCount( ) + i) * sizeof( size_t )) );
+		}
 		else
+		{
 			pNode = new CNodeHex;
+		}
 
 		pNode->SetParent( pClass );
 		pClass->InsertNode( idx, pNode );
@@ -1290,7 +1333,7 @@ void CChildView::InsertBytes( CNodeClass* pClass, UINT idx, DWORD Length )
 	g_ReClassApp.CalcAllOffsets( );
 }
 
-void CChildView::OnAddAdd4( )
+void CClassView::OnAddAdd4( )
 {
 	if (Selected[0].object->GetType( ) == nt_class)
 	{
@@ -1304,7 +1347,7 @@ void CChildView::OnAddAdd4( )
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateAddAdd4( CCmdUI * pCmdUI )
+void CClassView::OnUpdateAddAdd4( CCmdUI * pCmdUI )
 {
 	if (Selected.size( ) == 1 && (Selected[0].object->GetParent( ) || (Selected[0].object->GetType( ) == nt_class)))
 		pCmdUI->Enable( TRUE );
@@ -1312,7 +1355,7 @@ void CChildView::OnUpdateAddAdd4( CCmdUI * pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnAddAdd8( )
+void CClassView::OnAddAdd8( )
 {
 	if (Selected[0].object->GetType( ) == nt_class)
 		AddBytes( (CNodeClass*)Selected[0].object, 8 );
@@ -1321,7 +1364,7 @@ void CChildView::OnAddAdd8( )
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateAddAdd8( CCmdUI *pCmdUI )
+void CClassView::OnUpdateAddAdd8( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && (Selected[0].object->GetParent( ) || (Selected[0].object->GetType( ) == nt_class)))
 		pCmdUI->Enable( TRUE );
@@ -1329,7 +1372,7 @@ void CChildView::OnUpdateAddAdd8( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnAddAdd64( )
+void CClassView::OnAddAdd64( )
 {
 	if (Selected[0].object->GetType( ) == nt_class)
 		AddBytes( (CNodeClass*)Selected[0].object, 64 );
@@ -1338,7 +1381,7 @@ void CChildView::OnAddAdd64( )
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateAddAdd64( CCmdUI *pCmdUI )
+void CClassView::OnUpdateAddAdd64( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && (Selected[0].object->GetParent( ) || (Selected[0].object->GetType( ) == nt_class)))
 		pCmdUI->Enable( TRUE );
@@ -1346,7 +1389,7 @@ void CChildView::OnUpdateAddAdd64( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnAddAdd1024( )
+void CClassView::OnAddAdd1024( )
 {
 	if (Selected[0].object->GetType( ) == nt_class)
 		AddBytes( (CNodeClass*)Selected[0].object, 1024 );
@@ -1355,7 +1398,7 @@ void CChildView::OnAddAdd1024( )
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateAddAdd1024( CCmdUI *pCmdUI )
+void CClassView::OnUpdateAddAdd1024( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && (Selected[0].object->GetParent( ) || (Selected[0].object->GetType( ) == nt_class)))
 		pCmdUI->Enable( TRUE );
@@ -1363,7 +1406,7 @@ void CChildView::OnUpdateAddAdd1024( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnAddAdd2048( )
+void CClassView::OnAddAdd2048( )
 {
 	if (Selected[0].object->GetType( ) == nt_class)
 		AddBytes( (CNodeClass*)Selected[0].object, 2048 );
@@ -1372,7 +1415,7 @@ void CChildView::OnAddAdd2048( )
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateAddAdd2048( CCmdUI *pCmdUI )
+void CClassView::OnUpdateAddAdd2048( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && (Selected[0].object->GetParent( ) || (Selected[0].object->GetType( ) == nt_class)))
 		pCmdUI->Enable( TRUE );
@@ -1380,13 +1423,13 @@ void CChildView::OnUpdateAddAdd2048( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnInsertInsert4( )
+void CClassView::OnInsertInsert4( )
 {
 	InsertBytes( (CNodeClass*)Selected[0].object->GetParent( ), FindNodeIndex( Selected[0].object ), 4 );
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateInsertInsert4( CCmdUI *pCmdUI )
+void CClassView::OnUpdateInsertInsert4( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && Selected[0].object->GetParent( ))
 		pCmdUI->Enable( TRUE );
@@ -1394,13 +1437,13 @@ void CChildView::OnUpdateInsertInsert4( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnInsertInsert8( )
+void CClassView::OnInsertInsert8( )
 {
 	InsertBytes( (CNodeClass*)Selected[0].object->GetParent( ), FindNodeIndex( Selected[0].object ), 8 );
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateInsertInsert8( CCmdUI *pCmdUI )
+void CClassView::OnUpdateInsertInsert8( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && Selected[0].object->GetParent( ))
 		pCmdUI->Enable( TRUE );
@@ -1408,13 +1451,13 @@ void CChildView::OnUpdateInsertInsert8( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnInsertInsert64( )
+void CClassView::OnInsertInsert64( )
 {
 	InsertBytes( (CNodeClass*)Selected[0].object->GetParent( ), FindNodeIndex( Selected[0].object ), 64 );
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateInsertInsert64( CCmdUI *pCmdUI )
+void CClassView::OnUpdateInsertInsert64( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && Selected[0].object->GetParent( ))
 		pCmdUI->Enable( TRUE );
@@ -1422,13 +1465,13 @@ void CChildView::OnUpdateInsertInsert64( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnInsertInsert1024( )
+void CClassView::OnInsertInsert1024( )
 {
 	InsertBytes( (CNodeClass*)Selected[0].object->GetParent( ), FindNodeIndex( Selected[0].object ), 1024 );
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateInsertInsert1024( CCmdUI *pCmdUI )
+void CClassView::OnUpdateInsertInsert1024( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && Selected[0].object->GetParent( ))
 		pCmdUI->Enable( TRUE );
@@ -1436,13 +1479,13 @@ void CChildView::OnUpdateInsertInsert1024( CCmdUI *pCmdUI )
 		pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnInsertInsert2048( )
+void CClassView::OnInsertInsert2048( )
 {
 	InsertBytes( (CNodeClass*)Selected[0].object->GetParent( ), FindNodeIndex( Selected[0].object ), 2048 );
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateInsertInsert2048( CCmdUI *pCmdUI )
+void CClassView::OnUpdateInsertInsert2048( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) == 1 && Selected[0].object->GetParent( ))
 		pCmdUI->Enable( TRUE );
@@ -1463,13 +1506,13 @@ void MakeBasicClass( CNodeClass* pClass )
 	g_ReClassApp.m_Classes.push_back( pClass );
 }
 
-void CChildView::ReplaceSelectedWithType( NodeType Type )
+void CClassView::ReplaceSelectedWithType( NodeType Type )
 {
 	std::vector<CNodeBase*> newSelected;
 
 	PrintOut( _T( "Replace Node Type %s" ), NodeTypeToString( Type ) );
 
-	for (UINT i = 0; i < Selected.size( ); i++)
+	for (size_t i = 0; i < Selected.size( ); i++)
 	{
 		if (!g_ReClassApp.IsNodeValid( Selected[i].object ))
 			continue;
@@ -1502,10 +1545,12 @@ void CChildView::ReplaceSelectedWithType( NodeType Type )
 			for (int i = 0; i < 10; i++)
 			{
 				CNodeVTable* pVTable = (CNodeVTable*)pNewNode;
-				CNodeFunctionPtr* pFunctionPtr = new CNodeFunctionPtr;
-				pFunctionPtr->Initialize( this, pVTable->GetOffset( ) + (i * sizeof( size_t )));
-				pFunctionPtr->SetOffset( i * sizeof( size_t ) );
+				pVTable->Initialize( static_cast<CWnd*>(this) );
+
+				CNodeFunctionPtr* pFunctionPtr = new CNodeFunctionPtr( static_cast<CWnd*>(this), pVTable->GetOffset( ) + (i * sizeof( size_t )) );
+				pFunctionPtr->SetOffset( pVTable->GetOffset( ) + (i * sizeof( size_t )) );
 				pFunctionPtr->SetParent( pVTable );
+
 				pVTable->AddNode( pFunctionPtr );
 			}
 		}
@@ -1520,6 +1565,13 @@ void CChildView::ReplaceSelectedWithType( NodeType Type )
 		{
 			CNodeArray* pArray = (CNodeArray*)pNewNode;
 			CNodeClass* pClass = (CNodeClass*)g_ReClassApp.CreateNewNode( nt_class );
+			MakeBasicClass( pClass );
+			pArray->SetClass( pClass );
+		}
+		if (Type == nt_ptrarray)
+		{
+			CNodePtrArray* pArray = (CNodePtrArray*) pNewNode;
+			CNodeClass* pClass = (CNodeClass*) g_ReClassApp.CreateNewNode( nt_class );
 			MakeBasicClass( pClass );
 			pArray->SetClass( pClass );
 		}
@@ -1542,6 +1594,7 @@ void CChildView::ReplaceSelectedWithType( NodeType Type )
 		}
 
 		ReplaceNode( (CNodeClass*)Selected[i].object->GetParent( ), FindNodeIndex( Selected[i].object ), pNewNode );
+
 		newSelected.push_back( pNewNode );
 	}
 
@@ -1560,314 +1613,325 @@ void CChildView::ReplaceSelectedWithType( NodeType Type )
 	Invalidate( FALSE );
 }
 
-void CChildView::ClearSelection( )
+void CClassView::ClearSelection( )
 {
 	for (int i = 0; i < Selected.size( ); i++)
 		Selected[i].object->Unselect( );
 	Selected.clear( );
 }
 
-void CChildView::OnTypeHex64( )
+void CClassView::OnTypeHex64( )
 {
 	ReplaceSelectedWithType( nt_hex64 );
 }
 
-void CChildView::OnUpdateTypeHex64( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeHex64( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeHex32( )
+void CClassView::OnTypeHex32( )
 {
 	ReplaceSelectedWithType( nt_hex32 );
 }
 
-void CChildView::OnUpdateTypeHex32( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeHex32( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeHex16( )
+void CClassView::OnTypeHex16( )
 {
 	ReplaceSelectedWithType( nt_hex16 );
 }
 
-void CChildView::OnUpdateTypeHex16( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeHex16( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeHex8( )
+void CClassView::OnTypeHex8( )
 {
 	ReplaceSelectedWithType( nt_hex8 );
 }
 
-void CChildView::OnUpdateTypeHex8( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeHex8( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeBits( )
+void CClassView::OnTypeBits( )
 {
 	ReplaceSelectedWithType( nt_bits );
 }
 
-void CChildView::OnUpdateTypeBits( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeBits( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeInt64( )
+void CClassView::OnTypeInt64( )
 {
 	ReplaceSelectedWithType( nt_int64 );
 }
 
-void CChildView::OnUpdateTypeInt64( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeInt64( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeInt32( )
+void CClassView::OnTypeInt32( )
 {
 	ReplaceSelectedWithType( nt_int32 );
 }
 
-void CChildView::OnUpdateTypeInt32( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeInt32( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeInt16( )
+void CClassView::OnTypeInt16( )
 {
 	ReplaceSelectedWithType( nt_int16 );
 }
 
-void CChildView::OnUpdateTypeInt16( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeInt16( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeInt8( )
+void CClassView::OnTypeInt8( )
 {
 	ReplaceSelectedWithType( nt_int8 );
 }
 
-void CChildView::OnUpdateTypeInt8( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeInt8( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeQword( )
+void CClassView::OnTypeQword( )
 {
 	ReplaceSelectedWithType( nt_uint64 );
 }
 
-void CChildView::OnUpdateTypeQword( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeQword( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeDword( )
+void CClassView::OnTypeDword( )
 {
 	ReplaceSelectedWithType( nt_uint32 );
 }
 
-void CChildView::OnUpdateTypeDword( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeDword( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeWord( )
+void CClassView::OnTypeWord( )
 {
 	ReplaceSelectedWithType( nt_uint16 );
 }
 
-void CChildView::OnUpdateTypeWord( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeWord( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeByte( )
+void CClassView::OnTypeByte( )
 {
 	ReplaceSelectedWithType( nt_uint8 );
 }
 
-void CChildView::OnUpdateTypeByte( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeByte( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeVec2( )
+void CClassView::OnTypeVec2( )
 {
 	ReplaceSelectedWithType( nt_vec2 );
 }
 
-void CChildView::OnUpdateTypeVec2( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeVec2( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeVec3( )
+void CClassView::OnTypeVec3( )
 {
 	ReplaceSelectedWithType( nt_vec3 );
 }
 
-void CChildView::OnUpdateTypeVec3( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeVec3( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeQuat( )
+void CClassView::OnTypeQuat( )
 {
 	ReplaceSelectedWithType( nt_quat );
 }
 
-void CChildView::OnUpdateTypeQuat( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeQuat( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeMatrix( )
+void CClassView::OnTypeMatrix( )
 {
 	ReplaceSelectedWithType( nt_matrix );
 }
 
-void CChildView::OnUpdateTypeMatrix( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeMatrix( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeFloat( )
+void CClassView::OnTypeFloat( )
 {
 	ReplaceSelectedWithType( nt_float );
 }
 
-void CChildView::OnUpdateTypeFloat( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeFloat( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeDouble( )
+void CClassView::OnTypeDouble( )
 {
 	ReplaceSelectedWithType( nt_double );
 }
 
-void CChildView::OnUpdateTypeDouble( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeDouble( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeCustom( )
+void CClassView::OnTypeCustom( )
 {
 	ReplaceSelectedWithType( nt_custom );
 }
 
-void CChildView::OnUpdateTypeCustom( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeCustom( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeUnicode( void )
+void CClassView::OnTypeUnicode( void )
 {
 	ReplaceSelectedWithType( nt_unicode );
 }
 
-void CChildView::OnUpdateTypeUnicode( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeUnicode( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeText( )
+void CClassView::OnTypeText( )
 {
 	ReplaceSelectedWithType( nt_text );
 }
 
-void CChildView::OnUpdateTypeText( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeText( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypePChar( )
+void CClassView::OnTypePChar( )
 {
 	ReplaceSelectedWithType( nt_pchar );
 }
 
-void CChildView::OnTypePWChar( )
+void CClassView::OnTypePWChar( )
 {
 	ReplaceSelectedWithType( nt_pwchar );
 }
 
-void CChildView::OnUpdateTypePWChar( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypePWChar( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnUpdateTypePChar( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypePChar( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeVtable( )
+void CClassView::OnTypeVtable( )
 {
 	ReplaceSelectedWithType( nt_vtable );
 }
 
-void CChildView::OnUpdateTypeVtable( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeVtable( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeFunction( )
+void CClassView::OnTypeFunction( )
 {
 	ReplaceSelectedWithType( nt_function );
 }
 
-void CChildView::OnUpdateTypeFunction( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeFunction( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeFunctionPtr( )
+void CClassView::OnTypeFunctionPtr( )
 {
 	ReplaceSelectedWithType( nt_functionptr );
 }
 
-void CChildView::OnUpdateTypeFunctionPtr( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeFunctionPtr( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypePointer( )
+void CClassView::OnTypePointer( )
 {
 	ReplaceSelectedWithType( nt_pointer );
 }
 
-void CChildView::OnUpdateTypePointer( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypePointer( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeArray( )
+void CClassView::OnTypeArray( )
 {
 	ReplaceSelectedWithType( nt_array );
 }
 
-void CChildView::OnUpdateTypeArray( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeArray( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnTypeClass( )
+void CClassView::OnTypePtrArray( )
+{
+	//ReplaceSelectedWithType( nt_ptrarray );
+}
+
+void CClassView::OnUpdateTypePtrArray( CCmdUI * pCmdUI )
+{ 
+	pCmdUI->Enable( FALSE );
+	//StandardTypeUpdate( pCmdUI );
+}
+
+void CClassView::OnTypeClass( )
 {
 	ReplaceSelectedWithType( nt_instance );
 }
 
-void CChildView::OnUpdateTypeClass( CCmdUI *pCmdUI )
+void CClassView::OnUpdateTypeClass( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnModifyDelete( )
+void CClassView::OnModifyDelete( )
 {
 	for (UINT i = 0; i < Selected.size( ); i++)
 	{
@@ -1882,34 +1946,34 @@ void CChildView::OnModifyDelete( )
 	Selected.clear( );
 }
 
-void CChildView::OnUpdateModifyDelete( CCmdUI *pCmdUI )
+void CClassView::OnUpdateModifyDelete( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnModifyShow( )
+void CClassView::OnModifyShow( )
 {
 	g_ReClassApp.ClearHidden( );
 }
 
-void CChildView::OnUpdateModifyShow( CCmdUI *pCmdUI )
+void CClassView::OnUpdateModifyShow( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnModifyHide( )
+void CClassView::OnModifyHide( )
 {
 	for (UINT i = 0; i < Selected.size( ); i++)
 		Selected[i].object->Hide( );
 	Invalidate( FALSE );
 }
 
-void CChildView::OnUpdateModifyHide( CCmdUI *pCmdUI )
+void CClassView::OnUpdateModifyHide( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnButtonEditcode( )
+void CClassView::OnButtonEditcode( )
 {
 	CDialogEdit dlg;
 	dlg.Title.Format( _T( "Code for %s" ), m_pClass->GetName( ) );
@@ -1918,7 +1982,7 @@ void CChildView::OnButtonEditcode( )
 	m_pClass->Code = dlg.Text;
 }
 
-BOOL CChildView::OnCmdMsg( UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo )
+BOOL CClassView::OnCmdMsg( UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo )
 {
 	if (nCode == CN_UPDATE_COMMAND_UI)
 	{
@@ -1940,6 +2004,10 @@ BOOL CChildView::OnCmdMsg( UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 			{
 				((CNodeArray*)pNode)->SetClass( g_ReClassApp.m_Classes[idx] );
 			}
+			else if(nodeType == nt_ptrarray )
+			{
+				((CNodePtrArray*)pNode)->SetClass( g_ReClassApp.m_Classes[idx] );
+			}
 			else if (nodeType == nt_instance)
 			{
 				((CNodeClassInstance*)pNode)->SetClass( g_ReClassApp.m_Classes[idx] );
@@ -1957,17 +2025,17 @@ BOOL CChildView::OnCmdMsg( UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 	return CWnd::OnCmdMsg( nID, nCode, pExtra, pHandlerInfo );
 }
 
-void CChildView::OnEditCopy( )
+void CClassView::OnEditCopy( )
 {
 	m_Edit.Copy( );
 }
 
-void CChildView::OnEditPaste( )
+void CClassView::OnEditPaste( )
 {
 	m_Edit.Paste( );
 }
 
-void CChildView::StandardTypeUpdate( CCmdUI *pCmdUI )
+void CClassView::StandardTypeUpdate( CCmdUI *pCmdUI )
 {
 	if (Selected.size( ) > 0)
 	{
@@ -1978,7 +2046,7 @@ void CChildView::StandardTypeUpdate( CCmdUI *pCmdUI )
 	pCmdUI->Enable( FALSE );
 }
 
-void CChildView::OnButtonZero( )
+void CClassView::OnButtonZero( )
 {
 	CMemory mem;
 	for (UINT i = 0; i < Selected.size( ); i++)
@@ -1990,12 +2058,12 @@ void CChildView::OnButtonZero( )
 	}
 }
 
-void CChildView::OnUpdateButtonZero( CCmdUI *pCmdUI )
+void CClassView::OnUpdateButtonZero( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnButtonOne( )
+void CClassView::OnButtonOne( )
 {
 	CMemory mem;
 	for (UINT i = 0; i < Selected.size( ); i++)
@@ -2007,12 +2075,12 @@ void CChildView::OnButtonOne( )
 	}
 }
 
-void CChildView::OnUpdateButtonOne( CCmdUI *pCmdUI )
+void CClassView::OnUpdateButtonOne( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnButtonRandom( )
+void CClassView::OnButtonRandom( )
 {
 	CMemory mem;
 	srand( GetTickCount( ) );
@@ -2028,12 +2096,12 @@ void CChildView::OnButtonRandom( )
 	}
 }
 
-void CChildView::OnUpdateButtonRandom( CCmdUI *pCmdUI )
+void CClassView::OnUpdateButtonRandom( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }
 
-void CChildView::OnButtonSwap( )
+void CClassView::OnButtonSwap( )
 {
 	CMemory mem;
 	for (UINT i = 0; i < Selected.size( ); i++)
@@ -2051,7 +2119,7 @@ void CChildView::OnButtonSwap( )
 	}
 }
 
-void CChildView::OnUpdateButtonSwap( CCmdUI *pCmdUI )
+void CClassView::OnUpdateButtonSwap( CCmdUI *pCmdUI )
 {
 	StandardTypeUpdate( pCmdUI );
 }

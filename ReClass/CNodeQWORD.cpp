@@ -6,15 +6,15 @@ CNodeQWORD::CNodeQWORD( )
 	m_nodeType = nt_uint64;
 }
 
-void CNodeQWORD::Update( HotSpot & Spot )
+void CNodeQWORD::Update( const HotSpot& Spot )
 {
 	StandardUpdate( Spot );
-	DWORD64 v = _ttoi64( Spot.Text.GetString( ) );
+	DWORD64 v = _tcstoull( Spot.Text.GetString( ), NULL, g_bUnsignedHex ? 16 : 10 );
 	if (Spot.ID == 0)
 		ReClassWriteMemory( (LPVOID)Spot.Address, &v, sizeof( unsigned long long ) );
 }
 
-NodeSize CNodeQWORD::Draw( ViewInfo & View, int x, int y )
+NodeSize CNodeQWORD::Draw( const ViewInfo& View, int x, int y )
 {
 	if (m_bHidden)
 		return DrawHidden( View, x, y );
@@ -32,7 +32,7 @@ NodeSize CNodeQWORD::Draw( ViewInfo & View, int x, int y )
 	tx = AddText( View, tx, y, g_crType, HS_NONE, _T( "QWORD " ) );
 	tx = AddText( View, tx, y, g_crName, HS_NAME, _T( "%s" ), m_strName );
 	tx = AddText( View, tx, y, g_crName, HS_NONE, _T( " = " ) );
-	tx = AddText( View, tx, y, g_crValue, HS_EDIT, _T( "%llu" ), pMemory[0] ) + g_FontWidth;
+	tx = AddText( View, tx, y, g_crValue, HS_EDIT, g_bUnsignedHex ? _T( "0x%I64X" ) : _T( "%llu" ), pMemory[0] ) + g_FontWidth;
 	tx = AddComment( View, tx, y );
 
 	drawnSize.x = tx;

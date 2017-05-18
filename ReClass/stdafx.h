@@ -142,6 +142,7 @@ extern bool g_bFloat;
 extern bool g_bInt;
 extern bool g_bString;
 extern bool g_bPointers;
+extern bool g_bUnsignedHex;
 
 extern bool g_bTop;
 extern bool g_bClassBrowser;
@@ -214,6 +215,7 @@ BOOLEAN UpdateMemoryMap( );
 BOOLEAN UpdateExports( );
 
 ULONG_PTR GetBaseAddress( );
+
 BOOLEAN IsCode( ULONG_PTR Address );
 BOOLEAN IsData( ULONG_PTR Address );
 BOOLEAN IsMemory( ULONG_PTR Address );
@@ -258,9 +260,9 @@ struct AddressName
 };
 
 //
-// Classes 
+// Nodes 
 //
-#include "Classes.h"
+#include "Nodes.h"
 #ifdef _WIN64
 #define CNodeHex CNodeHex64
 #else
@@ -271,8 +273,8 @@ struct AddressName
 //
 // Main Application
 //
-#include "ReClass2016.h"
-extern CReClass2016App g_ReClassApp;
+#include "ReClassEx.h"
+extern CReClassExApp g_ReClassApp;
 
 
 //
